@@ -41,6 +41,8 @@ Skills also activate automatically based on what you're doing — designing an A
 
 ## Quick Start (Claude Code)
 
+Hướng dẫn sử dụng từng bước (tiếng Việt): [docs/tech/huong-dan-su-dung.md](docs/tech/huong-dan-su-dung.md)
+
 This copy is trimmed to Claude Code only. Install it from your local checkout so you get this version, not upstream:
 
 ```bash
