@@ -3,10 +3,10 @@
   "version": "0.6.14",
   "description": "Production-grade engineering skills for AI coding agents — covering the full software development lifecycle from spec to ship.",
   "author": {
-    "name": "Addy Osmani"
+    "name": "thanhnd"
   },
-  "homepage": "https://github.com/addyosmani/agent-skills",
-  "repository": "https://github.com/addyosmani/agent-skills",
+  "homepage": "https://github.com/thanhnd2397/claude-agents-skill",
+  "repository": "https://github.com/thanhnd2397/claude-agents-skill",
   "license": "MIT",
   "commands": ["./.claude/commands"],
   "skills": "./skills",

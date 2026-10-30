@@ -28,7 +28,7 @@ One scope caveat that trips people up: `CLAUDE.md` at the repo root configures a
 ## 2. Local setup
 
 ```bash
-git clone https://github.com/addyosmani/agent-skills.git
+git clone https://github.com/thanhnd2397/claude-agents-skill.git
 cd agent-skills
 ```
 
@@ -81,7 +81,7 @@ bash hooks/sdd-cache-test.sh
 bash hooks/simplify-ignore-test.sh
 ```
 
-CI runs this set on Ubuntu, then runs the validators and unit tests again on macOS and Windows, so path handling and line endings get exercised too. Two further jobs need the Claude Code CLI and are not in the block: `claude plugin validate .` checks the marketplace and plugin manifests, and a marketplace install (`claude plugin marketplace add ./`, then `claude plugin install agent-skills@addy-agent-skills --scope user`) proves the plugin installs from a checkout. Run those if you touch the `.claude-plugin/` manifests, or anything the install path reads. When the workflow gains a step, this block should gain the same line; if they ever disagree, [the workflow file](../.github/workflows/test-plugin-install.yml) is the source of truth.
+CI runs this set on Ubuntu, then runs the validators and unit tests again on macOS and Windows, so path handling and line endings get exercised too. Two further jobs need the Claude Code CLI and are not in the block: `claude plugin validate .` checks the marketplace and plugin manifests, and a marketplace install (`claude plugin marketplace add ./`, then `claude plugin install agent-skills@thanhnd-agent-skills --scope user`) proves the plugin installs from a checkout. Run those if you touch the `.claude-plugin/` manifests, or anything the install path reads. When the workflow gains a step, this block should gain the same line; if they ever disagree, [the workflow file](../.github/workflows/test-plugin-install.yml) is the source of truth.
 
 The three eval tiers are worth understanding even if you never touch the harness, because a red Tier 2 usually means *fix your skill's description*, not the eval: Tier 2 is a lexical approximation of routing (stemmed TF-IDF over descriptions), and its two target failure modes are a description missing the vocabulary users actually say, and an over-broad description that outranks the right skill. The full design, schema, and trust-level rules are in [evals/README.md](../evals/README.md).
 

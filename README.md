@@ -4,10 +4,6 @@
 
 Skills encode the workflows, quality gates, and best practices that senior engineers use when building software. These ones are packaged so AI agents follow them consistently across every phase of development.
 
-<a href="https://trendshift.io/repositories/25200" target="_blank"><img src="https://trendshift.io/api/badge/repositories/25200" alt="addyosmani%2Fagent-skills | Trendshift" style="width: 250px; height: 55px;" width="250" height="55"/></a>
-
-![Addy's Agent Skills](https://addyosmani.com/assets/images/addys-agent-skills.jpg)
-
 ```
   DEFINE          PLAN           BUILD          VERIFY         REVIEW          SHIP
  ┌──────┐      ┌──────┐      ┌──────┐      ┌──────┐      ┌──────┐      ┌──────┐
@@ -24,7 +20,7 @@ Skills encode the workflows, quality gates, and best practices that senior engin
 9 slash commands that map to the development lifecycle. Each one activates the right skills automatically.
 
 | What you're doing | Command | Key principle |
-|-------------------|---------|---------------|
+| ------------------- | --------- | --------------- |
 | Define what to build | `/spec` | Spec before code |
 | Plan how to build it | `/plan` | Small, atomic tasks |
 | Build incrementally | `/build` | One slice at a time |
@@ -55,7 +51,7 @@ Or register it as a local marketplace (`.claude-plugin/marketplace.json` points 
 
 ```
 /plugin marketplace add /path/to/agent-skills
-/plugin install agent-skills@addy-agent-skills
+/plugin install agent-skills@thanhnd-agent-skills
 ```
 
 ---
@@ -79,7 +75,7 @@ The commands above are entry points. The pack includes 25 skills total — 24 li
 ### Define - Clarify what to build
 
 | Skill | What It Does | Use When |
-|-------|-------------|----------|
+| ------- | ------------- | ---------- |
 | [interview-me](skills/interview-me/SKILL.md) | One-question-at-a-time interview that extracts what the user actually wants instead of what they think they should want, until ~95% confidence | The ask is underspecified, or the user invokes "interview me" / "grill me" |
 | [idea-refine](skills/idea-refine/SKILL.md) | Structured divergent/convergent thinking to turn vague ideas into concrete proposals | You have a rough concept that needs exploration |
 | [spec-driven-development](skills/spec-driven-development/SKILL.md) | Write a PRD covering objectives, commands, structure, code style, testing, and boundaries before any code | Starting a new project, feature, or significant change |
@@ -94,7 +90,7 @@ The commands above are entry points. The pack includes 25 skills total — 24 li
 ### Build - Write the code
 
 | Skill | What It Does | Use When |
-|-------|-------------|----------|
+| ------- | ------------- | ---------- |
 | [incremental-implementation](skills/incremental-implementation/SKILL.md) | Thin vertical slices - implement, test, verify, commit. Feature flags, safe defaults, rollback-friendly changes | Any change touching more than one file |
 | [test-driven-development](skills/test-driven-development/SKILL.md) | Red-Green-Refactor, test pyramid (80/15/5), test sizes, DAMP over DRY, Beyonce Rule, browser testing | Implementing logic, fixing bugs, or changing behavior |
 | [context-engineering](skills/context-engineering/SKILL.md) | Feed agents the right information at the right time - rules files, context packing, MCP integrations | Starting a session, switching tasks, or when output quality drops |
@@ -106,14 +102,14 @@ The commands above are entry points. The pack includes 25 skills total — 24 li
 ### Verify - Prove it works
 
 | Skill | What It Does | Use When |
-|-------|-------------|----------|
+| ------- | ------------- | ---------- |
 | [browser-testing-with-devtools](skills/browser-testing-with-devtools/SKILL.md) | Chrome DevTools MCP for live runtime data - DOM inspection, console logs, network traces, performance profiling | Building or debugging anything that runs in a browser |
 | [debugging-and-error-recovery](skills/debugging-and-error-recovery/SKILL.md) | Five-step triage: reproduce, localize, reduce, fix, guard. Stop-the-line rule, safe fallbacks | Tests fail, builds break, or behavior is unexpected |
 
 ### Review - Quality gates before merge
 
 | Skill | What It Does | Use When |
-|-------|-------------|----------|
+| ------- | ------------- | ---------- |
 | [code-review-and-quality](skills/code-review-and-quality/SKILL.md) | Five-axis review, change sizing (~100 lines), severity labels (Nit/Optional/FYI), review speed norms, splitting strategies | Before merging any change |
 | [code-simplification](skills/code-simplification/SKILL.md) | Chesterton's Fence, Rule of 500, reduce complexity while preserving exact behavior | Code works but is harder to read or maintain than it should be |
 | [security-and-hardening](skills/security-and-hardening/SKILL.md) | OWASP Top 10 prevention, auth patterns, secrets management, dependency auditing, three-tier boundary system | Handling user input, auth, data storage, or external integrations |
@@ -122,7 +118,7 @@ The commands above are entry points. The pack includes 25 skills total — 24 li
 ### Ship - Deploy with confidence
 
 | Skill | What It Does | Use When |
-|-------|-------------|----------|
+| ------- | ------------- | ---------- |
 | [git-workflow-and-versioning](skills/git-workflow-and-versioning/SKILL.md) | Trunk-based development, atomic commits, change sizing (~100 lines), the commit-as-save-point pattern | Making any code change (always) |
 | [ci-cd-and-automation](skills/ci-cd-and-automation/SKILL.md) | Shift Left, Faster is Safer, feature flags, quality gate pipelines, failure feedback loops | Setting up or modifying build and deploy pipelines |
 | [deprecation-and-migration](skills/deprecation-and-migration/SKILL.md) | Code-as-liability mindset, compulsory vs advisory deprecation, migration patterns, zombie code removal | Removing old systems, migrating users, or sunsetting features |
@@ -137,7 +133,7 @@ The commands above are entry points. The pack includes 25 skills total — 24 li
 Pre-configured specialist personas for targeted reviews:
 
 | Agent | Role | Perspective |
-|-------|------|-------------|
+| ------- | ------ | ------------- |
 | [code-reviewer](agents/code-reviewer.md) | Senior Staff Engineer | Five-axis code review with "would a staff engineer approve this?" standard |
 | [test-engineer](agents/test-engineer.md) | QA Specialist | Test strategy, coverage analysis, and the Prove-It pattern |
 | [security-auditor](agents/security-auditor.md) | Security Engineer | Vulnerability detection, threat modeling, OWASP assessment |
@@ -152,7 +148,7 @@ See [docs/agents.md](docs/agents.md) for the decision matrix, orchestration rule
 Quick-reference material that skills pull in when needed:
 
 | Reference | Covers |
-|-----------|--------|
+| ----------- | -------- |
 | [definition-of-done.md](references/definition-of-done.md) | Project-wide standing bar every change clears, contrasted with per-task acceptance criteria |
 | [testing-patterns.md](references/testing-patterns.md) | Test structure, naming, mocking, React/API/E2E examples, anti-patterns (JavaScript/TypeScript) |
 | [security-checklist.md](references/security-checklist.md) | Pre-commit checks, auth, input validation, headers, CORS, OWASP Top 10 |
@@ -197,7 +193,7 @@ Every skill follows a consistent anatomy:
 ## Project Structure
 
 | Layer | Repository paths | Purpose |
-|---|---|---|
+| --- | --- | --- |
 | Workflow core | `skills/` (25 skills) | `SKILL.md` workflows |
 | Review material | `agents/` (4 personas), `references/` (7 checklists) | Specialist reviewers and pack-level checklists |
 | Claude Code plugin | `.claude/commands/` (9 commands), `.claude-plugin/`, `hooks/` | Slash commands, plugin and marketplace manifests, hooks |
@@ -227,21 +223,3 @@ Wondering how this stacks up against [Superpowers](https://github.com/obra/super
 Skills should be **specific** (actionable steps, not vague advice), **verifiable** (clear exit criteria with evidence requirements), **battle-tested** (based on real workflows), and **minimal** (only what's needed to guide the agent).
 
 See [docs/skill-anatomy.md](docs/skill-anatomy.md) for the format specification, [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines, and [docs/advanced-per-agent-configuration.md](docs/advanced-per-agent-configuration.md) for applying model routing, tool restrictions, and other per-agent runtime controls without breaking the portable `SKILL.md` frontmatter.
-
----
-
-## Team
-
-agent-skills is built and maintained by:
-
-| | Name | GitHub | Role |
-|---|------|--------|------|
-| <img src="https://github.com/addyosmani.png?size=120" width="60" height="60" alt="Addy Osmani"> | **Addy Osmani** | [@addyosmani](https://github.com/addyosmani) | Creator |
-| <img src="https://github.com/federicobartoli.png?size=120" width="60" height="60" alt="Federico Bartoli"> | **Federico Bartoli** | [@federicobartoli](https://github.com/federicobartoli) | Collaborator |
-| <img src="https://github.com/nucliweb.png?size=120" width="60" height="60" alt="Joan León"> | **Joan León** | [@nucliweb](https://github.com/nucliweb) | Collaborator |
-
----
-
-## License
-
-MIT - use these skills in your projects, teams, and tools.

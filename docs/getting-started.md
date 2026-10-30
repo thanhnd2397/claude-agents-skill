@@ -2,11 +2,6 @@
 
 agent-skills works with any AI coding agent that accepts Markdown instructions. This guide covers the universal approach. For tool-specific setup, see the dedicated guides.
 
-Want a worked example before setting up your own project? The
-[interactive tutorials](https://skills.addy.ie/tutorials/) walk through a
-greenfield build, a brownfield feature, and a safe automation loop with
-copyable prompts for Claude Code, Codex, or any other agent.
-
 ## How Skills Work
 
 Each skill is a Markdown file (`SKILL.md`) that describes a specific engineering workflow. When loaded into an agent's context, the agent follows the workflow — including verification steps, anti-patterns to avoid, and exit criteria.
@@ -18,7 +13,7 @@ Each skill is a Markdown file (`SKILL.md`) that describes a specific engineering
 ### 1. Clone the repository
 
 ```bash
-git clone https://github.com/addyosmani/agent-skills.git
+git clone https://github.com/thanhnd2397/claude-agents-skill.git
 ```
 
 ### 2. Choose a skill
@@ -165,8 +160,6 @@ selected `skills/<name>/` directory is copied. The skill still works, but paths
 to supplementary checklists in the repo-level `references/` directory are
 unavailable. Use a whole-repo integration, clone the repository, or copy the
 needed checklist into a `references/` directory inside the installed skill.
-This portability gap is tracked in
-[addyosmani/agent-skills#361](https://github.com/addyosmani/agent-skills/issues/361).
 
 ## Spec and task artifacts
 
