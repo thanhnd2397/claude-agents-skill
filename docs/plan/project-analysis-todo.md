@@ -46,13 +46,13 @@ Làm trên nhánh riêng, không làm trực tiếp trên `main`.
 **Mô tả:** Viết `SKILL.md` theo quy trình 8 bước, bốn nhãn và các ranh giới trong spec. Thêm file eval với trigger và eval hành vi đầu tiên trên fixture `fresh`.
 
 **Tiêu chí chấp nhận:**
-- [ ] `SKILL.md` có đủ các phần bắt buộc, dưới 500 dòng, tham chiếu skill khác thay vì chép nội dung
-- [ ] Có ít nhất 3 positive trigger và 2 negative trigger, gồm negative có `owner` cho `context-engineering` và `doubt-driven-development`
-- [ ] Eval 1 có expectation cho từng tiêu chí 2, 3, 4, 5, 9 của spec
+- [x] `SKILL.md` có đủ các phần bắt buộc, dưới 500 dòng, tham chiếu skill khác thay vì chép nội dung
+- [x] Có ít nhất 3 positive trigger và 2 negative trigger, gồm negative có `owner` cho `context-engineering` và `doubt-driven-development`
+- [x] Eval 1 có expectation cho từng tiêu chí 2, 3, 4, 5, 9 của spec
 
 **Kiểm tra:**
-- [ ] CI cục bộ qua, rank-1 từ 95% trở lên, không có cảnh báo trùng mô tả mới
-- [ ] `node scripts/run-evals.js --behavioral project-analysis --dry-run` tìm thấy fixture
+- [x] CI cục bộ qua, rank-1 từ 95% trở lên, không có cảnh báo trùng mô tả mới
+- [x] `node scripts/run-evals.js --behavioral project-analysis --dry-run` tìm thấy fixture
 
 **Phụ thuộc:** Task 1
 

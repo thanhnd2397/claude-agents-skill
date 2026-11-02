@@ -38,7 +38,7 @@ T5 và T6 đều sửa `SKILL.md` và file eval nên phải làm lần lượt. 
 ### Giai đoạn 1: Skill hoạt động
 
 - [x] T1: Tạo fixture `fresh`
-- [ ] T2: Viết skill và file eval
+- [x] T2: Viết skill và file eval
 - [ ] T3: Thêm lệnh `/analyze`
 
 **Checkpoint 1:** toàn bộ lệnh kiểm tra CI đều qua, không có cảnh báo trùng mô tả mới.
