@@ -114,12 +114,12 @@ Làm trên nhánh riêng, không làm trực tiếp trên `main`.
 **Mô tả:** Thêm fixture đã có báo cáo cũ. Eval gửi câu trả lời cho một câu hỏi còn mở, sau đó kiểm tra báo cáo được cập nhật đúng.
 
 **Tiêu chí chấp nhận:**
-- [ ] Câu trả lời mới có nhãn `[User]`, câu hỏi tương ứng được đóng, các nội dung không liên quan được giữ nguyên
-- [ ] Câu trả lời `[User]` cũ không mất, và không có file báo cáo thứ hai
+- [x] Câu trả lời mới có nhãn `[User]`, câu hỏi tương ứng được đóng, các nội dung không liên quan được giữ nguyên
+- [x] Câu trả lời `[User]` cũ không mất, và không có file báo cáo thứ hai
 
 **Kiểm tra:**
-- [ ] Eval 2 đạt khi chạy `--behavioral project-analysis`
-- [ ] CI cục bộ qua
+- [x] Eval 2 đạt khi chạy `--behavioral project-analysis`
+- [x] CI cục bộ qua
 
 **Phụ thuộc:** Task 4
 
@@ -225,3 +225,20 @@ Làm trên nhánh riêng, không làm trực tiếp trên `main`.
 ### Checkpoint 3
 - [ ] Đạt đủ 9 tiêu chí trong Success Criteria
 - [ ] Bạn đã duyệt và sẵn sàng mở PR
+
+---
+
+## Trạng thái khi tạm dừng (2026-11-02)
+
+Xong T1 đến T5. Việc tiếp theo là **T6**, và eval 3 đã viết xong nhưng chưa chạy được đến cùng.
+
+**Chạy eval hành vi trên Windows.** `scripts/run-evals.js` gọi `claude` bằng `execFileSync`, nên không tìm thấy `claude.cmd` và báo `spawnSync claude ENOENT`. Cách chạy được:
+
+```bash
+export PATH="/c/Program Files/nodejs/node_modules/@anthropic-ai/claude-code/bin:$PATH"
+node scripts/run-evals.js --behavioral project-analysis
+```
+
+Runner chạy lần lượt cả 3 eval trong một lần gọi và tốn token cho mỗi eval. Chưa có cách chạy riêng một eval.
+
+**Kết quả eval đã có.** Eval 1 đạt 11/11, eval 2 đạt 9/9. Một lần chạy trước đó eval 1 chỉ đạt 10/11 do nhãn của mã `R7`, và skill đã được siết lại sau lần đó. Hành vi agent dao động giữa các lần, nên cần ghi rõ số lần chạy khi báo kết quả ở T9.

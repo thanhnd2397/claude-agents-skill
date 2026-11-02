@@ -67,6 +67,8 @@ Every claim carries exactly one label:
 - **Q1.** Which roles may issue a partial refund? The code only checks `isStaff` at `src/refunds/api.ts:27`.
 ```
 
+Label the gaps, do not narrate them. When a finding has a part the code shows and a part it does not, write two claims: one labeled for what the code shows, one labeled `[Unknown]` for what it does not, with its question. A gap mentioned in prose and left unlabeled reads as a complete finding.
+
 A code comment or README statement proves only that someone wrote it. Do not label behavior `[Verified]` from documentation alone: cite the documentation, label the claim `[Inferred]`, and check the code.
 
 ## The Process
@@ -129,6 +131,7 @@ Suggest `spec-driven-development` as the next step for any planned change. Do no
 ## Red Flags
 
 - A claim with no label, or a `[Verified]` or `[Inferred]` claim with no citation
+- A gap described in prose with no `[Unknown]` claim and no question behind it
 - A citation written from memory instead of checked against the file
 - A guess in the report that is not labeled `[Inferred]` or `[Unknown]`
 - A disagreement between documentation and code resolved silently
