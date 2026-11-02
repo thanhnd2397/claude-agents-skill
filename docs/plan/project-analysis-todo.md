@@ -67,11 +67,11 @@ Làm trên nhánh riêng, không làm trực tiếp trên `main`.
 **Mô tả:** Thêm lệnh gọi skill và nhận tham số phạm vi, theo mẫu của các lệnh hiện có.
 
 **Tiêu chí chấp nhận:**
-- [ ] Lệnh có `description`, `disable-model-invocation: true`, gọi `agent-skills:project-analysis` và truyền `$ARGUMENTS`
-- [ ] Đã kiểm tra `/analyze` có trùng lệnh có sẵn của Claude Code không, và ghi kết quả vào mục Open Questions của spec
+- [x] Lệnh có `description`, `disable-model-invocation: true`, gọi `agent-skills:project-analysis` và truyền `$ARGUMENTS`
+- [x] Đã kiểm tra `/analyze` có trùng lệnh có sẵn của Claude Code không, và ghi kết quả vào mục Open Questions của spec
 
 **Kiểm tra:**
-- [ ] `node scripts/validate-commands.js` qua
+- [x] `node scripts/validate-commands.js` qua
 
 **Phụ thuộc:** Task 2
 
@@ -82,7 +82,7 @@ Làm trên nhánh riêng, không làm trực tiếp trên `main`.
 **Quy mô:** XS
 
 ### Checkpoint 1
-- [ ] CI cục bộ qua, không có cảnh báo trùng mô tả mới
+- [x] CI cục bộ qua, không có cảnh báo trùng mô tả mới
 
 ---
 

@@ -205,5 +205,5 @@ Fixture là một dự án nhỏ trong `evals/fixtures/project-analysis/`, gồm
 ## Open Questions
 
 1. **Kiểm tra PR và issue đang mở:** máy chưa có `gh`, nên chưa kiểm tra được phần này. Cần kiểm tra trước khi mở PR theo [CONTRIBUTING.md](../CONTRIBUTING.md#before-proposing-a-new-skill).
-2. **Tên lệnh:** spec đang dùng `/analyze`. Lệnh này chưa được kiểm tra thực tế xem có trùng lệnh nào của Claude Code không; nếu trùng, vẫn gọi được qua `/agent-skills:analyze`.
+2. **Tên lệnh (đã kiểm tra, 2026-11-02):** tài liệu lệnh của Claude Code không có lệnh `/analyze` có sẵn, nên tên này không trùng tại thời điểm kiểm tra. Tên đầy đủ `/agent-skills:analyze` vẫn gọi được nếu sau này có lệnh trùng tên.
 3. **Vị trí spec:** spec lưu tại `docs/SPEC.md` thay vì thư mục gốc, để theo quy tắc `docs/` của bạn mà `/build` vẫn tìm thấy.
