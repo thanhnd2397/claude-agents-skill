@@ -45,7 +45,7 @@ T5 và T6 đều sửa `SKILL.md` và file eval nên phải làm lần lượt. 
 
 ### Giai đoạn 2: Chứng minh hành vi
 
-- [ ] T4: Chạy eval hành vi trên `fresh` và sửa skill theo kết quả
+- [x] T4: Chạy eval hành vi trên `fresh` và sửa skill theo kết quả
 - [ ] T5: Hỗ trợ chạy lại và câu trả lời của người dùng
 - [ ] T6: Hỗ trợ phân tích theo phạm vi
 

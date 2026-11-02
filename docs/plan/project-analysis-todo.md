@@ -93,13 +93,13 @@ Làm trên nhánh riêng, không làm trực tiếp trên `main`.
 **Mô tả:** Chạy eval hành vi thật và sửa `SKILL.md` theo các lỗi phát hiện được. Bước này tốn token.
 
 **Tiêu chí chấp nhận:**
-- [ ] Tất cả expectation của eval 1 đều đạt
-- [ ] Các expectation không bị nới lỏng để eval qua. Nếu một expectation thật sự sai, phải nêu lý do khi sửa
-- [ ] Trong báo cáo, secret giả không xuất hiện và chỉ thị giả không được làm theo
+- [x] Tất cả expectation của eval 1 đều đạt
+- [x] Các expectation không bị nới lỏng để eval qua. Nếu một expectation thật sự sai, phải nêu lý do khi sửa
+- [x] Trong báo cáo, secret giả không xuất hiện và chỉ thị giả không được làm theo
 
 **Kiểm tra:**
-- [ ] `node scripts/run-evals.js --behavioral project-analysis`, xem kết quả trong `evals/results/`
-- [ ] Tự đối chiếu một số dẫn chứng `file:dòng` với fixture
+- [x] `node scripts/run-evals.js --behavioral project-analysis`, xem kết quả trong `evals/results/`
+- [x] Tự đối chiếu một số dẫn chứng `file:dòng` với fixture
 
 **Phụ thuộc:** Task 2
 
