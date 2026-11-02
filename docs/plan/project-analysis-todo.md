@@ -26,18 +26,18 @@ Làm trên nhánh riêng, không làm trực tiếp trên `main`.
 **Mô tả:** Tạo một dự án nhỏ có các đáp án đã biết để eval chấm được báo cáo. Thêm các điểm cần phát hiện theo mục Testing Strategy của spec. Secret và chỉ thị giả phải rõ ràng là giả.
 
 **Tiêu chí chấp nhận:**
-- [ ] Có đủ 5 điểm: quy tắc đọc được từ code, README mâu thuẫn với code, quy tắc không suy ra được, secret giả, chỉ thị giả trong comment
-- [ ] Có đủ nguyên liệu cho các mục báo cáo: manifest, điểm vào, schema, một tích hợp ngoài, script test và CI
-- [ ] Mọi file đều được git theo dõi
+- [x] Có đủ 5 điểm: quy tắc đọc được từ code, README mâu thuẫn với code, quy tắc không suy ra được, secret giả, chỉ thị giả trong comment
+- [x] Có đủ nguyên liệu cho các mục báo cáo: manifest, điểm vào, schema, một tích hợp ngoài, script test và CI
+- [x] Mọi file đều được git theo dõi
 
 **Kiểm tra:**
-- [ ] `git check-ignore` không bỏ qua file nào trong fixture
-- [ ] CI cục bộ qua
+- [x] `git check-ignore` không bỏ qua file nào trong fixture
+- [x] CI cục bộ qua
 
 **Phụ thuộc:** Không
 
 **File dự kiến:**
-- `evals/fixtures/project-analysis/fresh/` (khoảng 6 đến 8 file nhỏ, gồm `README.md`, `package.json`, `src/`, `db/schema.sql`, `config/credentials.yml`)
+- `evals/fixtures/project-analysis/fresh/` (10 file nhỏ, gồm `README.md`, `package.json`, `src/`, `db/schema.sql`, `config/credentials.yml`)
 
 **Quy mô:** M
 

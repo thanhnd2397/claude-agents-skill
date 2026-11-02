@@ -37,7 +37,7 @@ T5 và T6 đều sửa `SKILL.md` và file eval nên phải làm lần lượt. 
 
 ### Giai đoạn 1: Skill hoạt động
 
-- [ ] T1: Tạo fixture `fresh`
+- [x] T1: Tạo fixture `fresh`
 - [ ] T2: Viết skill và file eval
 - [ ] T3: Thêm lệnh `/analyze`
 
@@ -68,7 +68,7 @@ T5 và T6 đều sửa `SKILL.md` và file eval nên phải làm lần lượt. 
 | Agent chép secret hoặc làm theo chỉ thị giả | Cao | Có expectation riêng trong eval `fresh`. Không đạt thì không sang T5. |
 | Dẫn chứng `file:dòng` sai | Cao | Expectation yêu cầu đối chiếu dòng trong fixture. Skill yêu cầu đọc lại dòng được dẫn trước khi ghi. |
 | Eval hành vi cho kết quả dao động và tốn token | Trung bình | Chạy `--dry-run` trước, chỉ chạy thật ở T4 đến T6. Ghi lại số lần đạt. |
-| Fixture lồng nhau không được eval runner xử lý như dự kiến | Trung bình | Kiểm tra bằng `--dry-run` ở T2. Nếu không được, chuyển `rerun` thành eval riêng theo cách runner hỗ trợ. |
+| Eval runner chép fixture vào `<workspace>/project-analysis/fresh`, không phải thư mục gốc của workspace | Trung bình | Prompt của eval phải nêu rõ thư mục dự án, và expectation dùng đúng đường dẫn đó. Kiểm tra bằng `--dry-run` ở T2. |
 | Trùng tên lệnh `/analyze` | Thấp | Kiểm tra ở T3. Tên đầy đủ `/agent-skills:analyze` vẫn gọi được. |
 
 ## Câu hỏi còn mở
