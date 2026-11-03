@@ -2,6 +2,10 @@
 
 Tài liệu này giải thích cách dùng bộ skill theo từng bước: giai đoạn nào dùng command nào, command đó gọi skill nào và agent nào, cùng cách tiết kiệm token. Mọi thông tin được đối chiếu với file thật trong [.claude/commands/](../../.claude/commands/), [agents/](../../agents/) và `skills/*/SKILL.md`.
 
+> Muốn xem một ví dụ cụ thể đi từ đầu đến cuối, kèm đúng những gì bạn gõ ở mỗi bước: [vi-du-su-dung.md](vi-du-su-dung.md).
+>
+> Muốn gọi skill trực tiếp thay vì qua command, kèm tác dụng của cả 26 skill: [danh-muc-skills.md](danh-muc-skills.md).
+
 ---
 
 ## Bước 0: Cài đặt (chỉ làm một lần)
