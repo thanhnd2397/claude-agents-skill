@@ -65,7 +65,7 @@ Run the lifecycle in order for the project's first real feature:
 ### Greenfield anti-patterns
 
 - **Skipping `/spec` because "it's just a prototype."** Prototypes become products. The spec is the cheapest artifact you'll ever write for this codebase.
-- **Loading all 25 skills into every session.** It wastes context and dilutes the ones that matter. Load by phase; let the host's native router or `using-agent-skills` route, but not both.
+- **Loading all 26 skills into every session.** It wastes context and dilutes the ones that matter. Load by phase; let the host's native router or `using-agent-skills` route, but not both.
 - **Deferring observability until "there's something to observe."** Instrument as you build, retrofitting structured logging is a Path B problem you're choosing to create.
 
 ---
@@ -78,10 +78,11 @@ In an established codebase, the risk profile inverts: the danger isn't building 
 
 Goal: the agent understands the codebase before it modifies anything.
 
-1. **`context-engineering` first.** Write the project rules file describing the real conventions, the ones in the code, not the ones in the wiki. Include build/test commands, directory meaning, known landmines ("don't touch `legacy/billing`, it has no tests and three known workarounds").
-2. **`code-review-and-quality` on incoming changes.** Reviewing is zero-risk and immediately valuable: the five-axis review and its severity labels (which separate what blocks a merge, Critical and Required, from what doesn't) work on any PR regardless of the codebase's state.
-3. **`debugging-and-error-recovery` for the bugs you were fixing anyway.** The five-step triage (reproduce → localize → reduce → fix → guard) shines in unfamiliar code, and the "guard" step starts building the regression suite you don't have.
-4. **`doubt-driven-development` as a safety net.** Legacy code is exactly the "unfamiliar code, high cost of being wrong" scenario this skill targets. Adversarial fresh-context review of the agent's claims about how the legacy system works catches confident hallucinations before they become commits.
+1. **`project-analysis` first.** Run `/analyze` to read the codebase into one evidence-backed report: domain, structure, stack, data, integrations, and how to run and test it. Every claim is labeled `[Verified]`, `[Inferred]` or `[Unknown]` and cited, so the rules file you write next is built on what the code actually says rather than on the agent's confident guesses. What the code can't answer comes back as open questions for you.
+2. **`context-engineering` second, building on that report.** Write the project rules file describing the real conventions, the ones in the code, not the ones in the wiki. Include build/test commands, directory meaning, known landmines ("don't touch `legacy/billing`, it has no tests and three known workarounds").
+3. **`code-review-and-quality` on incoming changes.** Reviewing is zero-risk and immediately valuable: the five-axis review and its severity labels (which separate what blocks a merge, Critical and Required, from what doesn't) work on any PR regardless of the codebase's state.
+4. **`debugging-and-error-recovery` for the bugs you were fixing anyway.** The five-step triage (reproduce → localize → reduce → fix → guard) shines in unfamiliar code, and the "guard" step starts building the regression suite you don't have.
+5. **`doubt-driven-development` as a safety net.** Legacy code is exactly the "unfamiliar code, high cost of being wrong" scenario this skill targets. Adversarial fresh-context review of the agent's claims about how the legacy system works catches confident hallucinations before they become commits.
 
 ### Phase 2 | Tests before change
 
@@ -109,6 +110,7 @@ Goal: two-speed adoption, legacy code stays under the Phase 1–2 regime; **new 
 
 - **"Big bang" adoption.** Loading the full lifecycle onto a legacy codebase on day one produces specs for code that already exists and refactors without safety nets. Sequence it.
 - **Letting the agent refactor untested code.** No characterization tests, no refactor. This is the single most expensive shortcut in brownfield adoption.
+- **Writing the rules file from a skim.** `context-engineering` is only as good as what the agent knows; run `/analyze` first so the conventions it records are cited, not inferred.
 - **Skipping `context-engineering` because "the code is the documentation."** The agent will infer conventions from the worst file it happens to read. Tell it the real ones.
 - **Treating the legacy system's behavior as wrong by default.** Chesterton's Fence: the weird retry loop may be load-bearing. Understand, then change.
 - **Ratcheting nothing.** Adoption should make quality monotonically better: each phase adds a gate that doesn't come back off. If a month in you can't name what's now enforced that wasn't before, the rollout has stalled.
@@ -121,7 +123,7 @@ Both end in the same steady state: `/spec → /plan → /build → /review → /
 
 |                        | Greenfield                     | Brownfield                               |
 | ---------------------- | ------------------------------ | ---------------------------------------- |
-| First skill loaded     | Native router, or `using-agent-skills` + `/spec` | `context-engineering`                    |
+| First skill loaded     | Native router, or `using-agent-skills` + `/spec` | `project-analysis` (`/analyze`), then `context-engineering` |
 | First value delivered  | Spec'd, tested first feature   | Zero-risk reviews and safer bug fixes    |
 | TDD posture            | Universal from commit one      | Selective: tests where change is planned |
 | Refactoring rule       | Rare (little to refactor)      | Characterization tests first, always     |

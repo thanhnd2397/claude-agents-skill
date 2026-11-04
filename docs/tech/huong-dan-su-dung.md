@@ -5,6 +5,8 @@ Tài liệu này giải thích cách dùng bộ skill theo từng bước: giai 
 > Muốn xem một ví dụ cụ thể đi từ đầu đến cuối, kèm đúng những gì bạn gõ ở mỗi bước: [vi-du-su-dung.md](vi-du-su-dung.md).
 >
 > Muốn gọi skill trực tiếp thay vì qua command, kèm tác dụng của cả 26 skill: [danh-muc-skills.md](danh-muc-skills.md).
+>
+> Muốn biết nên dùng skill nào cho việc đang làm và khi nào **không** nên dùng: [cach-dung-hieu-qua.md](cach-dung-hieu-qua.md).
 
 ---
 
@@ -33,10 +35,11 @@ Sau khi cài, mở Claude Code trong **dự án bạn đang làm** (không phả
 
 ---
 
-## Bảng tra 9 command
+## Bảng tra 10 command
 
 | Command | Skill được gọi | Agent | Kết quả |
 |---|---|---|---|
+| `/analyze` | project-analysis | — | `docs/analysis/project-analysis.md`: báo cáo về dự án có sẵn, mỗi nhận định có nhãn `[Verified]`/`[Inferred]`/`[Unknown]` và dẫn chứng `file:dòng`. Chỉ đọc. |
 | `/spec` | spec-driven-development | — | `SPEC.md` (hỏi bạn rồi mới viết) |
 | `/plan` | planning-and-task-breakdown | — | `tasks/plan.md` và `tasks/todo.md`. Chỉ đọc, không sửa code. |
 | `/build` | incremental-implementation + test-driven-development | — | Làm **một** task: viết test fail → code cho pass → chạy toàn bộ test → build → commit → dừng |
@@ -80,7 +83,7 @@ duyệt     duyệt     mỗi task 1 commit     sửa lỗi    GO / NO-GO
 **Bước 5. Ra mắt: `/ship`**, chỉ khi deploy lên production
 - Agent: `code-reviewer`, `security-auditor` và `test-engineer` chạy song song.
 
-**Với dự án có sẵn:** chạy `/constraints` một lần ở đầu để chốt tiêu chuẩn chất lượng, ví dụ coverage, lint, không được bỏ test. Muốn tìm hiểu một codebase mới, hãy dùng skill `context-engineering` (xem mục cuối).
+**Với dự án có sẵn:** chạy `/analyze` trước để hiểu dự án (xem mục [Phân tích một codebase mới](#phân-tích-một-codebase-mới)), rồi `/constraints` một lần ở đầu để chốt tiêu chuẩn chất lượng, ví dụ coverage, lint, không được bỏ test.
 
 ---
 
@@ -92,6 +95,7 @@ duyệt     duyệt     mỗi task 1 commit     sửa lỗi    GO / NO-GO
 | Sửa bug | `/test` (test tái hiện lỗi trước) | Không cần `/spec` hay `/plan` |
 | Tính năng nhỏ, 1–3 file | `/build` rồi `/review` | Viết spec 2 dòng thẳng trong prompt là đủ |
 | Tính năng vừa và lớn | `/spec` → `/plan` → `/build` → `/review` | Quy trình đầy đủ |
+| Mới nhận một dự án người khác đã làm | `/analyze` trước mọi thứ khác | Một lần cho cả dự án. Chỉ đọc, kết quả nằm ở `docs/analysis/project-analysis.md` |
 | Deploy production | Thêm `/ship` | Tốn nhất (3 subagent). `/ship` tự bỏ qua fan-out nếu thay đổi ≤ 2 file, < 50 dòng và không đụng tới auth, thanh toán, dữ liệu hay config. |
 
 ---
@@ -109,17 +113,28 @@ duyệt     duyệt     mỗi task 1 commit     sửa lỗi    GO / NO-GO
 
 ## Phân tích một codebase mới
 
-Không có command riêng cho việc này. Hãy kết hợp như sau:
-
-1. Chạy `/init` (lệnh có sẵn của Claude Code) để tạo `CLAUDE.md` ban đầu.
-2. Gọi skill `context-engineering` để bổ sung Tech Stack, Commands, Code Conventions, Boundaries và bản tóm tắt theo từng module.
-3. Nếu cần ghi lại kiến trúc lâu dài, dùng `documentation-and-adrs`.
-4. Nếu cần audit, dùng `/review`, hoặc gọi trực tiếp agent `security-auditor` hay `web-performance-auditor`.
-
-Ví dụ prompt:
+Bắt đầu bằng `/analyze` (skill `project-analysis`). Nó đọc dự án và viết **một** file báo cáo tại `docs/analysis/project-analysis.md` gồm 7 mục: tóm tắt, miền nghiệp vụ, cấu trúc, ngôn ngữ và tech stack, dữ liệu và tích hợp, cách chạy và test, câu hỏi còn mở.
 
 ```
-Dùng skill context-engineering để phân tích codebase này:
-tech stack, lệnh build/test/run, quy ước code, cấu trúc module
-(tóm tắt theo từng thư mục chính), các boundary cần tránh.
+/analyze
 ```
+
+Chỉ cần một phần dự án thì truyền phạm vi vào, là đường dẫn hoặc chủ đề:
+
+```
+/analyze src/payments
+/analyze luồng hoàn tiền
+```
+
+Ba điều đáng biết về báo cáo này:
+
+- **Mỗi nhận định có nhãn và dẫn chứng.** `[Verified]` là đọc trực tiếp từ code kèm `file:dòng`, `[Inferred]` là suy luận kèm lý do, `[Unknown]` là code không trả lời được. Bạn biết chỗ nào tin được, chỗ nào chỉ là suy đoán.
+- **Chỗ nào không rõ thành câu hỏi, không thành phỏng đoán.** Cuối báo cáo là danh sách câu hỏi cho bạn. Trả lời xong, nói "Q1: ..." để nó cập nhật nhận định tương ứng thành `[User]` kèm ngày xác nhận.
+- **Chỉ đọc, và không tự chạy lệnh.** Nó không `npm install`, không `npm test`, không kết nối database; các lệnh tìm thấy được ghi là "not run". Nó cũng chỉ ghi tên biến môi trường và secret, không ghi giá trị.
+
+Sau khi có báo cáo, làm tiếp theo nhu cầu:
+
+1. Gọi skill `context-engineering` để viết `CLAUDE.md` dựa trên báo cáo, bổ sung Tech Stack, Commands, Code Conventions, Boundaries. Chạy sau `/analyze` thì những quy ước ghi vào đều có dẫn chứng, không phải phỏng đoán. Lệnh `/init` có sẵn của Claude Code cũng tạo được `CLAUDE.md` ban đầu nếu bạn muốn một bản nháp nhanh.
+2. Nếu cần ghi lại kiến trúc lâu dài, dùng `documentation-and-adrs`.
+3. Nếu cần audit, dùng `/review`, hoặc gọi trực tiếp agent `security-auditor` hay `web-performance-auditor`. `/analyze` **không** phải bản đánh giá rủi ro: nó chỉ nêu ở phần tóm tắt những vấn đề nghiêm trọng tình cờ gặp, tối đa 5 dòng, và không đề xuất cách sửa.
+4. Chuẩn bị sửa gì thì sang `/spec`.
