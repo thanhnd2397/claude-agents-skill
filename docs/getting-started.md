@@ -72,6 +72,7 @@ These three cover the most critical quality gaps in AI-assisted development.
 For comprehensive coverage, load skills by phase:
 
 ```
+Inheriting a project: project-analysis
 Starting a project:  spec-driven-development → planning-and-task-breakdown
 During development:  incremental-implementation + test-driven-development
 Before merge:        code-review-and-quality + security-and-hardening
@@ -82,6 +83,7 @@ Before deploy:       shipping-and-launch
 
 Don't load all skills at once — it wastes context. Load skills relevant to the current task:
 
+- Inherited a codebase you don't know? Load `project-analysis`
 - Working on UI? Load `frontend-ui-engineering`
 - Debugging? Load `debugging-and-error-recovery`
 - Setting up CI? Load `ci-cd-and-automation`
@@ -122,6 +124,7 @@ The `.claude/commands/` directory contains slash commands for Claude Code:
 
 | Command | Skill Invoked |
 |---------|---------------|
+| `/analyze` | project-analysis |
 | `/spec` | spec-driven-development |
 | `/constraints` | constraint-driven-development |
 | `/plan` | planning-and-task-breakdown |

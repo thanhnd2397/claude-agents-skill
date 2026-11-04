@@ -17,10 +17,11 @@ Skills encode the workflows, quality gates, and best practices that senior engin
 
 ## Commands
 
-9 slash commands that map to the development lifecycle. Each one activates the right skills automatically.
+10 slash commands that map to the development lifecycle. Each one activates the right skills automatically.
 
 | What you're doing | Command | Key principle |
 | ------------------- | --------- | --------------- |
+| Understand an existing project | `/analyze` | Evidence before assumptions |
 | Define what to build | `/spec` | Spec before code |
 | Plan how to build it | `/plan` | Small, atomic tasks |
 | Build incrementally | `/build` | One slice at a time |
@@ -40,6 +41,8 @@ Skills also activate automatically based on what you're doing — designing an A
 ---
 
 ## Quick Start (Claude Code)
+
+Hướng dẫn sử dụng từng bước (tiếng Việt): [docs/tech/huong-dan-su-dung.md](docs/tech/huong-dan-su-dung.md)
 
 This copy is trimmed to Claude Code only. Install it from your local checkout so you get this version, not upstream:
 
@@ -62,9 +65,9 @@ Already installed? How you roll the pack out depends on your codebase. The **[Ad
 
 ---
 
-## All 25 Skills
+## All 26 Skills
 
-The commands above are entry points. The pack includes 25 skills total — 24 lifecycle skills plus the `using-agent-skills` meta-skill. Each skill is a structured workflow with steps, verification gates, and anti-rationalization tables. You can also reference any skill directly.
+The commands above are entry points. The pack includes 26 skills total — 25 lifecycle skills plus the `using-agent-skills` meta-skill. Each skill is a structured workflow with steps, verification gates, and anti-rationalization tables. You can also reference any skill directly.
 
 ### Meta - Discover which skill applies
 
@@ -76,6 +79,7 @@ The commands above are entry points. The pack includes 25 skills total — 24 li
 
 | Skill | What It Does | Use When |
 | ------- | ------------- | ---------- |
+| [project-analysis](skills/project-analysis/SKILL.md) | Read an existing codebase into one evidence-backed report — domain, structure, stack, data, integrations, how to run it — with every claim labeled `[Verified]`/`[Inferred]`/`[Unknown]` and cited | You inherited or joined an already-developed project and need to understand it before changing anything |
 | [interview-me](skills/interview-me/SKILL.md) | One-question-at-a-time interview that extracts what the user actually wants instead of what they think they should want, until ~95% confidence | The ask is underspecified, or the user invokes "interview me" / "grill me" |
 | [idea-refine](skills/idea-refine/SKILL.md) | Structured divergent/convergent thinking to turn vague ideas into concrete proposals | You have a rough concept that needs exploration |
 | [spec-driven-development](skills/spec-driven-development/SKILL.md) | Write a PRD covering objectives, commands, structure, code style, testing, and boundaries before any code | Starting a new project, feature, or significant change |
@@ -194,10 +198,10 @@ Every skill follows a consistent anatomy:
 
 | Layer | Repository paths | Purpose |
 | --- | --- | --- |
-| Workflow core | `skills/` (25 skills) | `SKILL.md` workflows |
+| Workflow core | `skills/` (26 skills) | `SKILL.md` workflows |
 | Review material | `agents/` (4 personas), `references/` (7 checklists) | Specialist reviewers and pack-level checklists |
-| Claude Code plugin | `.claude/commands/` (9 commands), `.claude-plugin/`, `hooks/` | Slash commands, plugin and marketplace manifests, hooks |
-| Contributor tooling | `scripts/`, `evals/` (25 case files), `.github/workflows/` | Validation, routing evals, and CI |
+| Claude Code plugin | `.claude/commands/` (10 commands), `.claude-plugin/`, `hooks/` | Slash commands, plugin and marketplace manifests, hooks |
+| Contributor tooling | `scripts/`, `evals/` (26 case files), `.github/workflows/` | Validation, routing evals, and CI |
 | Documentation | `docs/` | Guides |
 
 ---
