@@ -152,11 +152,14 @@ system, and the code is still what runs.
 
 A rerun exists to avoid re-reading a project that has barely changed.
 
-1. Read the index header for the previous commit and scope.
-2. If the project is in version control and that commit is reachable, diff it
-   against the current revision to get the changed paths. If it is not — no
-   recorded commit, a shallow clone, an unreachable hash — say so in the index
-   and analyze in full.
+1. Read the index header for the previous commit and scope, before writing
+   anything. That previously-recorded commit is the baseline. The commit you
+   record this run is the new header value and is never the baseline — diffing
+   against it compares the project to itself and always reports no change.
+2. If the project is in version control and that baseline is reachable, diff it
+   against the current revision to get the changed paths. If there is no
+   baseline — no previous run, no recorded commit, a shallow clone, an
+   unreachable hash — say so in the index and analyze in full.
 3. Map changed paths to dimensions and features. A changed manifest touches the
    stack and licenses; a changed route touches the inventory and the feature
    that owns it; a changed migration touches data.
@@ -166,6 +169,10 @@ A rerun exists to avoid re-reading a project that has barely changed.
    new commit.
 6. Mark a document whose cited lines no longer exist as stale in one line,
    rather than deleting it.
+
+Nothing is unchanged, up to date, or already covered without a baseline diff
+behind the claim. A clean working tree does not establish it: it says nobody
+has edited the files since the last commit, not that the analysis matches them.
 
 Preserve every `[User]` claim and every answered question through a rerun,
 whatever else changes. They are the only content in the set that cannot be

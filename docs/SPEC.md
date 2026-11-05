@@ -260,9 +260,10 @@ rằng chạy lại không làm mất chúng.
 8. Mỗi mục trong `risk-register.md` có mức độ, verdict và dẫn chứng, không đề xuất sửa, và file kết thúc bằng ghi chú chuyển tiếp sang `security-and-hardening`. File index nêu tối đa 5 dòng.
 9. Agent không hỏi giữa chừng. Sau khi người dùng trả lời, tài liệu được cập nhật với nhãn `[User]`, còn các nội dung khác giữ nguyên, và agent không tự viết câu trả lời nào.
 10. Chạy lại `/analyze` thì cập nhật đúng bộ tài liệu cũ, kể cả bản một file của phiên bản trước, không tạo bộ thứ hai và không mất câu trả lời `[User]` nào.
-11. `/analyze <tên nghiệp vụ>` tạo đúng một file trong `docs/analysis/features/` và thêm liên kết từ cây domain, không phân tích lại cả dự án.
-12. Toàn bộ lệnh `validate-*` và `run-evals.js --min-rank1 95` đều qua.
-13. Agent dừng sau khi ghi xong và chỉ gợi ý `/spec`, hoặc `security-and-hardening` khi cần audit thật.
+11. Mốc so sánh khi chạy lại là commit đã ghi ở lần chạy trước, đọc ra trước khi ghi gì. Commit ghi trong lần chạy này không bao giờ là mốc so sánh. Không có mốc thì phân tích lại toàn bộ và ghi rõ lý do trong index; không được mô tả bất cứ phần nào là không đổi khi chưa diff với một mốc có thật.
+12. `/analyze <tên nghiệp vụ>` tạo đúng một file trong `docs/analysis/features/` và thêm liên kết từ cây domain, không phân tích lại cả dự án.
+13. Toàn bộ lệnh `validate-*` và `run-evals.js --min-rank1 95` đều qua.
+14. Agent dừng sau khi ghi xong và chỉ gợi ý `/spec`, hoặc `security-and-hardening` khi cần audit thật.
 
 ## Open Questions
 
