@@ -2,6 +2,13 @@
 
 Spec: [docs/SPEC.md](../SPEC.md). Plan: [project-analysis-plan.md](project-analysis-plan.md).
 
+> **Lưu ý, 2026-11-05.** Tài liệu này mô tả lần triển khai đầu, khi đầu ra là
+> một file báo cáo duy nhất. Bản hiện tại xuất ra một bộ tài liệu trong
+> `docs/analysis/` và có thêm số liệu, giấy phép, rủi ro và tài liệu từng
+> nghiệp vụ. Phạm vi hiện hành nằm ở [docs/SPEC.md](../SPEC.md); giữ file này
+> làm hồ sơ của lần triển khai đầu.
+
+
 **Bộ lệnh kiểm tra CI**, gọi tắt là "CI cục bộ" trong các task dưới đây:
 
 ```bash

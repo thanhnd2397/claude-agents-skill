@@ -39,7 +39,7 @@ Sau khi cài, mở Claude Code trong **dự án bạn đang làm** (không phả
 
 | Command | Skill được gọi | Agent | Kết quả |
 |---|---|---|---|
-| `/analyze` | project-analysis | — | `docs/analysis/project-analysis.md`: báo cáo về dự án có sẵn, mỗi nhận định có nhãn `[Verified]`/`[Inferred]`/`[Unknown]` và dẫn chứng `file:dòng`. Chỉ đọc. |
+| `/analyze` | project-analysis | — | Bộ tài liệu trong `docs/analysis/`, vào từ `project-analysis.md`: nghiệp vụ, cấu trúc, stack, dữ liệu, số liệu, giấy phép, rủi ro, cách chạy, kèm `questions.md`. Mỗi nhận định có nhãn `[Verified]`/`[Inferred]`/`[Unknown]` và dẫn chứng `file:dòng`. Chỉ đọc. |
 | `/spec` | spec-driven-development | — | `SPEC.md` (hỏi bạn rồi mới viết) |
 | `/plan` | planning-and-task-breakdown | — | `tasks/plan.md` và `tasks/todo.md`. Chỉ đọc, không sửa code. |
 | `/build` | incremental-implementation + test-driven-development | — | Làm **một** task: viết test fail → code cho pass → chạy toàn bộ test → build → commit → dừng |
@@ -113,7 +113,26 @@ duyệt     duyệt     mỗi task 1 commit     sửa lỗi    GO / NO-GO
 
 ## Phân tích một codebase mới
 
-Bắt đầu bằng `/analyze` (skill `project-analysis`). Nó đọc dự án và viết **một** file báo cáo tại `docs/analysis/project-analysis.md` gồm 7 mục: tóm tắt, miền nghiệp vụ, cấu trúc, ngôn ngữ và tech stack, dữ liệu và tích hợp, cách chạy và test, câu hỏi còn mở.
+Bắt đầu bằng `/analyze` (skill `project-analysis`). Nó đọc dự án và viết một bộ
+tài liệu trong `docs/analysis/`, vào từ `project-analysis.md`:
+
+```
+docs/analysis/
+├── project-analysis.md            # index: tóm tắt, số liệu, bản đồ tài liệu
+├── technology-stack.md            # ngôn ngữ, framework, phiên bản
+├── business-domain.md             # cây domain, vai trò, feature
+├── structure.md                   # module, trách nhiệm, kiến trúc
+├── inventory.md                   # số liệu và quy tắc đếm
+├── data-and-integrations.md       # schema, API, dịch vụ ngoài
+├── running-and-testing.md         # lệnh cài, chạy, build, test, CI
+├── dependencies-and-licenses.md   # giấy phép và thành phần có thể mất phí
+├── risk-register.md               # rủi ro kèm mức độ và dẫn chứng
+├── questions.md                   # câu hỏi, bạn trả lời tại chỗ
+└── features/<domain>/<feature>.md # tài liệu một nghiệp vụ, tạo khi bạn yêu cầu
+```
+
+File index luôn có. Các file còn lại chỉ được tạo khi chiều đó thật sự có kết
+quả, nên dự án nhỏ sẽ không có bộ khung mười file rỗng.
 
 ```
 /analyze
@@ -126,15 +145,27 @@ Chỉ cần một phần dự án thì truyền phạm vi vào, là đường d�
 /analyze luồng hoàn tiền
 ```
 
-Ba điều đáng biết về báo cáo này:
+Nếu bộ tài liệu đã có và bạn truyền đúng tên một nghiệp vụ trong cây domain, nó
+viết tài liệu riêng cho nghiệp vụ đó thay vì phân tích lại cả dự án:
+
+```
+/analyze Issue refund
+```
+
+Chạy lại `/analyze` về sau thì nó so commit đã ghi trong index với commit hiện
+tại và chỉ phân tích lại phần đã thay đổi. Không có commit để so thì nó phân
+tích lại toàn bộ và nói rõ lý do.
+
+Bốn điều đáng biết về bộ tài liệu này:
 
 - **Mỗi nhận định có nhãn và dẫn chứng.** `[Verified]` là đọc trực tiếp từ code kèm `file:dòng`, `[Inferred]` là suy luận kèm lý do, `[Unknown]` là code không trả lời được. Bạn biết chỗ nào tin được, chỗ nào chỉ là suy đoán.
-- **Chỗ nào không rõ thành câu hỏi, không thành phỏng đoán.** Cuối báo cáo là danh sách câu hỏi cho bạn. Trả lời xong, nói "Q1: ..." để nó cập nhật nhận định tương ứng thành `[User]` kèm ngày xác nhận.
+- **Chỗ nào không rõ thành câu hỏi, không thành phỏng đoán.** Câu hỏi nằm trong `questions.md`. Bạn mở file, điền vào dòng `**Answer:**` dưới mỗi câu, rồi chạy lại `/analyze`; hoặc trả lời ngay trong chat. Nhận định tương ứng thành `[User]` kèm ngày xác nhận. Agent không bao giờ tự điền câu trả lời, nên cái gì trong đó là của bạn.
 - **Chỉ đọc, và không tự chạy lệnh.** Nó không `npm install`, không `npm test`, không kết nối database; các lệnh tìm thấy được ghi là "not run". Nó cũng chỉ ghi tên biến môi trường và secret, không ghi giá trị.
+- **Số liệu luôn kèm quy tắc đếm.** Mỗi con số trong `inventory.md` ghi rõ đếm gì và loại trừ gì, ví dụ "1 endpoint, là cặp method và path, không tính fallback 404". Một con số không có quy tắc đếm thì không ai kiểm lại được.
 
 Sau khi có báo cáo, làm tiếp theo nhu cầu:
 
 1. Gọi skill `context-engineering` để viết `CLAUDE.md` dựa trên báo cáo, bổ sung Tech Stack, Commands, Code Conventions, Boundaries. Chạy sau `/analyze` thì những quy ước ghi vào đều có dẫn chứng, không phải phỏng đoán. Lệnh `/init` có sẵn của Claude Code cũng tạo được `CLAUDE.md` ban đầu nếu bạn muốn một bản nháp nhanh.
 2. Nếu cần ghi lại kiến trúc lâu dài, dùng `documentation-and-adrs`.
-3. Nếu cần audit, dùng `/review`, hoặc gọi trực tiếp agent `security-auditor` hay `web-performance-auditor`. `/analyze` **không** phải bản đánh giá rủi ro: nó chỉ nêu ở phần tóm tắt những vấn đề nghiêm trọng tình cờ gặp, tối đa 5 dòng, và không đề xuất cách sửa.
+3. Nếu cần audit, dùng `/review`, hoặc gọi trực tiếp agent `security-auditor` hay `web-performance-auditor`. `risk-register.md` **không** phải bản audit: nó ghi lại nguy hiểm mà việc đọc dự án phơi ra, kèm mức độ và verdict (`Confirmed` là đã truy vết được, `Potential` là mới thấy dấu hiệu), không đi tìm cho đủ và không đề xuất cách sửa. File index chỉ nêu tối đa 5 dòng nghiêm trọng nhất. Register rỗng nghĩa là đọc không thấy gì, không phải dự án an toàn.
 4. Chuẩn bị sửa gì thì sang `/spec`.
