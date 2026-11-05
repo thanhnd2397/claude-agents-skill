@@ -22,11 +22,11 @@ Ba tầng dưới đây giả định bạn đã hiểu codebase. Nếu vừa nh
 /analyze
 ```
 
-Nó đọc dự án và viết `docs/analysis/project-analysis.md`: nghiệp vụ, cấu trúc, tech stack, dữ liệu, tích hợp, cách chạy và test. Giá trị thật không nằm ở việc có một bản tóm tắt — mà ở chỗ **mỗi nhận định đều có nhãn**: `[Verified]` kèm `file:dòng`, `[Inferred]` kèm lý do, `[Unknown]` thành câu hỏi cho bạn ở cuối báo cáo. Agent không biết thì nó nói là không biết, thay vì nói chắc nịch một điều nó đoán — đó là cách đọc code của agent gây tốn kém nhất.
+Nó đọc dự án và viết một bộ tài liệu trong `docs/analysis/`, vào từ `project-analysis.md`: nghiệp vụ, cấu trúc, tech stack, dữ liệu, tích hợp, số liệu, giấy phép, rủi ro, cách chạy và test. Giá trị thật không nằm ở việc có một bản tóm tắt — mà ở chỗ **mỗi nhận định đều có nhãn**: `[Verified]` kèm `file:dòng`, `[Inferred]` kèm lý do, `[Unknown]` thành câu hỏi trong `questions.md`. Agent không biết thì nó nói là không biết, thay vì nói chắc nịch một điều nó đoán — đó là cách đọc code của agent gây tốn kém nhất.
 
-Một lần cho cả dự án. Chỉ cần một phần thì truyền phạm vi: `/analyze src/payments`. Chạy xong, trả lời các câu hỏi cuối báo cáo rồi mới gọi `context-engineering` viết `CLAUDE.md` — lúc đó quy ước ghi vào đều có dẫn chứng.
+Một lần cho cả dự án. Chỉ cần một phần thì truyền phạm vi: `/analyze src/payments`. Cần hiểu sâu đúng một nghiệp vụ thì truyền tên nó: `/analyze Issue refund`. Chạy xong, điền câu trả lời vào `questions.md` rồi mới gọi `context-engineering` viết `CLAUDE.md` — lúc đó quy ước ghi vào đều có dẫn chứng.
 
-Đừng dùng nó như bản đánh giá rủi ro. Nó chỉ nêu tối đa 5 vấn đề nghiêm trọng tình cờ gặp và không đề xuất cách sửa; muốn audit thật thì gọi `security-and-hardening` hoặc `/review`.
+Đừng dùng `risk-register.md` như bản audit. Nó ghi lại nguy hiểm mà việc đọc phơi ra, kèm mức độ và verdict, không đi tìm cho đủ và không đề xuất cách sửa; file index chỉ nêu tối đa 5 dòng. Muốn audit thật thì gọi `security-and-hardening` hoặc `/review`.
 
 ---
 

@@ -79,7 +79,7 @@ The commands above are entry points. The pack includes 26 skills total — 25 li
 
 | Skill | What It Does | Use When |
 | ------- | ------------- | ---------- |
-| [project-analysis](skills/project-analysis/SKILL.md) | Read an existing codebase into one evidence-backed report — domain, structure, stack, data, integrations, how to run it — with every claim labeled `[Verified]`/`[Inferred]`/`[Unknown]` and cited | You inherited or joined an already-developed project and need to understand it before changing anything |
+| [project-analysis](skills/project-analysis/SKILL.md) | Read an existing codebase into a linked evidence-backed doc set — domain, structure, stack, data, integrations, counts, licensing, risks, how to run it — with every claim labeled `[Verified]`/`[Inferred]`/`[Unknown]` and cited, and per-feature docs on request | You inherited or joined an already-developed project and need to understand it before changing anything |
 | [interview-me](skills/interview-me/SKILL.md) | One-question-at-a-time interview that extracts what the user actually wants instead of what they think they should want, until ~95% confidence | The ask is underspecified, or the user invokes "interview me" / "grill me" |
 | [idea-refine](skills/idea-refine/SKILL.md) | Structured divergent/convergent thinking to turn vague ideas into concrete proposals | You have a rough concept that needs exploration |
 | [spec-driven-development](skills/spec-driven-development/SKILL.md) | Write a PRD covering objectives, commands, structure, code style, testing, and boundaries before any code | Starting a new project, feature, or significant change |

@@ -2,6 +2,13 @@
 
 Spec: [docs/SPEC.md](../SPEC.md). Danh sách task chi tiết: [project-analysis-todo.md](project-analysis-todo.md).
 
+> **Lưu ý, 2026-11-05.** Tài liệu này mô tả lần triển khai đầu, khi đầu ra là
+> một file báo cáo duy nhất. Bản hiện tại xuất ra một bộ tài liệu trong
+> `docs/analysis/` và có thêm số liệu, giấy phép, rủi ro và tài liệu từng
+> nghiệp vụ. Phạm vi hiện hành nằm ở [docs/SPEC.md](../SPEC.md); giữ file này
+> làm hồ sơ của lần triển khai đầu.
+
+
 ## Tổng quan
 
 Thêm skill `project-analysis`, lệnh `/analyze` và bộ eval đi kèm, rồi đăng ký chúng trong tài liệu của repo. Không thêm script hay dependency. Rủi ro lớn nhất nằm ở hai việc: skill có được gọi đúng lúc không, và agent có thật sự tuân theo quy tắc về dẫn chứng và secret không. Vì vậy các eval này được làm trước phần tài liệu.
