@@ -59,6 +59,62 @@ const EVAL_KINDS = new Set(['execution', 'dialogue']);
 const COLLISION_WARN = 0.5; // cosine similarity between two descriptions
 const COLLISION_ERROR = 0.75;
 
+// Resolving the `claude` executable for the Tier-3 executor and grader.
+//
+// execFileSync runs no shell, so it needs a path the OS can execute directly.
+// On POSIX, `claude` on PATH is one. On Windows none of the installed entry
+// points is: `claude` is an `sh` shim (Node reports ENOENT), `claude.cmd` is a
+// batch file (EINVAL ever since Node refused to spawn .cmd without a shell,
+// the fix for CVE-2024-27980), and `claude.ps1` is a script (EFTYPE). Every
+// behavioral eval died with ENOENT before the agent read its fixture, so the
+// whole tier was unrunnable on Windows while CI — which only runs the
+// deterministic trigger gate — stayed green.
+//
+// `shell: true` would start the process and corrupt the run. The executor
+// passes the entire SKILL.md as one `--append-system-prompt` argument, and a
+// shell would re-parse its newlines, quotes, carets, pipes and %VAR% spans,
+// so the agent would be graded against mangled guidance. The grader has the
+// same problem via its stdin-adjacent argv. Resolve the real executable
+// instead and leave argv untouched.
+//
+// CLAUDE_EVAL_BIN overrides the search for unusual installs.
+const CLAUDE_BIN_RELATIVE = path.join(
+  'node_modules', '@anthropic-ai', 'claude-code', 'bin', 'claude.exe',
+);
+
+function findClaudeBin({
+  platform = process.platform,
+  env = process.env,
+  exists = fs.existsSync,
+  execPath = process.execPath,
+} = {}) {
+  if (env.CLAUDE_EVAL_BIN) return env.CLAUDE_EVAL_BIN;
+  if (platform !== 'win32') return 'claude';
+
+  // PATH holds the shims; the real .exe sits beside them or under the global
+  // npm prefix. Node's own directory is checked too, because a global install
+  // lands next to node and PATH can arrive POSIX-shaped from a bash shell.
+  const dirs = [
+    ...String(env.PATH || env.Path || '').split(path.delimiter),
+    path.dirname(execPath),
+  ].filter(Boolean);
+
+  for (const dir of dirs) {
+    for (const candidate of [path.join(dir, 'claude.exe'), path.join(dir, CLAUDE_BIN_RELATIVE)]) {
+      if (exists(candidate)) return candidate;
+    }
+  }
+  // Nothing found: fall through to the bare name so the failure stays the
+  // original ENOENT rather than a path this function invented.
+  return 'claude';
+}
+
+let claudeBinCache = null;
+function claudeBin() {
+  if (claudeBinCache === null) claudeBinCache = findClaudeBin();
+  return claudeBinCache;
+}
+
 // ---------- tiny text pipeline ----------
 
 const STOP = new Set([
@@ -630,7 +686,7 @@ function runBehavioral(skillName, dryRun) {
     let executorError;
     try {
       trace = execFileSync(
-        'claude',
+        claudeBin(),
         ['-p', '--verbose', '--output-format', 'stream-json',
           '--permission-mode', 'acceptEdits',
           '--allowedTools', EXECUTOR_TOOLS,
@@ -668,7 +724,7 @@ function runBehavioral(skillName, dryRun) {
     ].join('\n\n');
     // The trace can be megabytes; pass the grader prompt via stdin, never
     // argv, or it would blow past the OS argument-size limit (E2BIG).
-    const raw = execFileSync('claude', ['-p'], { input: graderPrompt, encoding: 'utf8', maxBuffer: 16 * 1024 * 1024, timeout: GRADER_TIMEOUT_MS });
+    const raw = execFileSync(claudeBin(), ['-p'], { input: graderPrompt, encoding: 'utf8', maxBuffer: 16 * 1024 * 1024, timeout: GRADER_TIMEOUT_MS });
     let gradingError = 'grader returned invalid JSON';
     const grading = parseGrading(raw, ev.expectations, (reason) => { gradingError = reason; });
     const runMeta = {
@@ -719,4 +775,4 @@ function main(args = process.argv.slice(2)) {
 
 if (require.main === module) main();
 
-module.exports = { materializeWorkspace, parseGrading, clearGradingSlot, persistGradingOutcome, extractExecutorModel };
+module.exports = { materializeWorkspace, parseGrading, clearGradingSlot, persistGradingOutcome, extractExecutorModel, findClaudeBin };
