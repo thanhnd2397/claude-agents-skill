@@ -122,6 +122,35 @@ function claudeBin() {
   return claudeBinCache;
 }
 
+// Building the executor's system prompt.
+//
+// SKILL.md is injected as text, but a skill's own references/ directory is not
+// copied anywhere and the workspace holds only the fixture. So a skill that
+// links `references/<file>.md` — the convention for skills that carry their own
+// supporting docs — sends the agent at a path with nothing behind it, and every
+// requirement living in those files is graded without being readable. A real
+// plugin install has them beside SKILL.md, so the eval was stricter than the
+// thing it models.
+//
+// Naming the directory fixes that without copying anything. The alternative,
+// copying references/ into the workspace, resolves the links too but plants a
+// directory inside the project under analysis, which then shows up in the
+// structure findings and inventory counts that the same evals grade.
+function buildSkillPrompt(skillFile, read = fs.readFileSync) {
+  const skillDir = path.resolve(path.dirname(skillFile));
+  return [
+    'Follow this skill exactly:',
+    '',
+    read(skillFile, 'utf8'),
+    '',
+    `This skill is installed at ${skillDir}. Paths it links relative to itself, `
+    + 'such as references/<file>.md, resolve inside that directory: read them from '
+    + 'there when the skill sends you to one. That directory is the skill\'s own '
+    + 'material, not part of the project you were asked to work on, so do not '
+    + 'analyze, count, or modify it.',
+  ].join('\n');
+}
+
 // ---------- tiny text pipeline ----------
 
 const STOP = new Set([
@@ -697,7 +726,7 @@ function runBehavioral(skillName, dryRun) {
         ['-p', '--verbose', '--output-format', 'stream-json',
           '--permission-mode', 'acceptEdits',
           '--allowedTools', EXECUTOR_TOOLS,
-          '--append-system-prompt', `Follow this skill exactly:\n\n${fs.readFileSync(skillFile, 'utf8')}`],
+          '--append-system-prompt', buildSkillPrompt(skillFile)],
         { input: ev.prompt, encoding: 'utf8', maxBuffer: 64 * 1024 * 1024, cwd: workspace, timeout: EXECUTOR_TIMEOUT_MS },
       );
     } catch (error) {
@@ -782,4 +811,4 @@ function main(args = process.argv.slice(2)) {
 
 if (require.main === module) main();
 
-module.exports = { materializeWorkspace, parseGrading, clearGradingSlot, persistGradingOutcome, extractExecutorModel, findClaudeBin };
+module.exports = { materializeWorkspace, parseGrading, clearGradingSlot, persistGradingOutcome, extractExecutorModel, findClaudeBin, buildSkillPrompt };
