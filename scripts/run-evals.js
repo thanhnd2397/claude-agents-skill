@@ -78,9 +78,7 @@ const COLLISION_ERROR = 0.75;
 // instead and leave argv untouched.
 //
 // CLAUDE_EVAL_BIN overrides the search for unusual installs.
-const CLAUDE_BIN_RELATIVE = path.join(
-  'node_modules', '@anthropic-ai', 'claude-code', 'bin', 'claude.exe',
-);
+const CLAUDE_BIN_SEGMENTS = ['node_modules', '@anthropic-ai', 'claude-code', 'bin', 'claude.exe'];
 
 function findClaudeBin({
   platform = process.platform,
@@ -91,16 +89,25 @@ function findClaudeBin({
   if (env.CLAUDE_EVAL_BIN) return env.CLAUDE_EVAL_BIN;
   if (platform !== 'win32') return 'claude';
 
+  // Join and split with Windows semantics explicitly rather than through the
+  // host's `path`. Otherwise this function only works when the host platform
+  // and the requested platform agree, which is true in production but not in
+  // tests: a POSIX CI runner would split a ';'-separated PATH on ':' and build
+  // candidates with '/', so nothing would ever match.
+  const win = path.win32;
+  const dirs = [
+    ...String(env.PATH || env.Path || '').split(';'),
+    win.dirname(execPath),
+  ].filter(Boolean);
+
   // PATH holds the shims; the real .exe sits beside them or under the global
   // npm prefix. Node's own directory is checked too, because a global install
   // lands next to node and PATH can arrive POSIX-shaped from a bash shell.
-  const dirs = [
-    ...String(env.PATH || env.Path || '').split(path.delimiter),
-    path.dirname(execPath),
-  ].filter(Boolean);
-
   for (const dir of dirs) {
-    for (const candidate of [path.join(dir, 'claude.exe'), path.join(dir, CLAUDE_BIN_RELATIVE)]) {
+    for (const candidate of [
+      win.join(dir, 'claude.exe'),
+      win.join(dir, ...CLAUDE_BIN_SEGMENTS),
+    ]) {
       if (exists(candidate)) return candidate;
     }
   }
