@@ -8,7 +8,7 @@ const os = require('node:os');
 const path = require('node:path');
 const { spawnSync } = require('node:child_process');
 const test = require('node:test');
-const { materializeWorkspace, parseGrading, clearGradingSlot, persistGradingOutcome, extractExecutorModel, findClaudeBin } = require('./run-evals');
+const { materializeWorkspace, parseGrading, clearGradingSlot, persistGradingOutcome, extractExecutorModel, findClaudeBin, buildSkillPrompt } = require('./run-evals');
 
 const RUNNER = path.join(__dirname, 'run-evals.js');
 
@@ -83,6 +83,12 @@ function runBehavioralWithGrading(root, raw, options = {}) {
       assert.ok(binary === 'claude' || binary === 'claude.exe', 'unexpected binary: ' + command);
       const executor = args.includes('--output-format');
       require('node:fs').appendFileSync(${JSON.stringify(path.join(root, 'claude-calls.txt'))}, executor ? 'executor\\n' : 'grader\\n');
+      if (executor) {
+        require('node:fs').writeFileSync(
+          ${JSON.stringify(path.join(root, 'system-prompt.txt'))},
+          String(args[args.indexOf('--append-system-prompt') + 1]),
+        );
+      }
       if (executor && ${JSON.stringify(Boolean(options.error))}) throw Object.assign(new Error('executor failed'), ${JSON.stringify(options.error || {})});
       return executor ? ${JSON.stringify(options.trace ?? '{"type":"result","subtype":"success","is_error":false,"result":"done"}\n')} : ${JSON.stringify(raw)};
     };
@@ -1043,4 +1049,49 @@ test('falls back to the bare name when windows has no executable to find', () =>
     execPath: 'C:\Program Files\nodejs\node.exe',
   });
   assert.equal(resolved, 'claude', 'must not invent a path that does not exist');
+});
+
+
+// A skill's references/ directory is never copied into the eval workspace, so
+// without the location its SKILL.md links resolve to nothing and anything
+// documented there is graded without being readable.
+test('names the skill directory so its relative reference links resolve', () => {
+  const root = makeSandbox();
+  try {
+    writeSkill(root, 'alpha', 'code unit tests');
+    const skillFile = path.join(root, 'skills', 'alpha', 'SKILL.md');
+    const prompt = buildSkillPrompt(skillFile);
+    assert.match(prompt, /^Follow this skill exactly:/, 'skill text must still lead');
+    assert.ok(prompt.includes('# alpha'), 'the skill body must still be injected');
+    assert.ok(
+      prompt.includes(path.resolve(path.join(root, 'skills', 'alpha'))),
+      'the resolved skill directory must appear so references/<file>.md resolves',
+    );
+    assert.match(prompt, /references\/<file>\.md/, 'the convention must be named explicitly');
+  } finally { fs.rmSync(root, { recursive: true, force: true }); }
+});
+
+test('marks the skill directory as reference material, not project under analysis', () => {
+  const root = makeSandbox();
+  try {
+    writeSkill(root, 'alpha', 'code unit tests');
+    const prompt = buildSkillPrompt(path.join(root, 'skills', 'alpha', 'SKILL.md'));
+    // Without this the agent can fold the skill's own files into the structure
+    // findings and inventory counts it is being graded on.
+    assert.match(prompt, /not part of the project/);
+    assert.match(prompt, /do not\s+analyze, count, or modify it/);
+  } finally { fs.rmSync(root, { recursive: true, force: true }); }
+});
+
+test('passes the skill directory through to the executor', () => {
+  const root = makeSandbox();
+  try {
+    const result = runBehavioralWithGrading(root, passingGrading);
+    assert.equal(result.status, 0, result.stdout + result.stderr);
+    const sent = fs.readFileSync(path.join(root, 'system-prompt.txt'), 'utf8');
+    assert.ok(
+      sent.includes(path.resolve(path.join(root, 'skills', 'alpha-skill'))),
+      'the executor must receive the skill directory, not just the skill text',
+    );
+  } finally { fs.rmSync(root, { recursive: true, force: true }); }
 });
