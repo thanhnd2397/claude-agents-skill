@@ -8,7 +8,7 @@ const os = require('node:os');
 const path = require('node:path');
 const { spawnSync } = require('node:child_process');
 const test = require('node:test');
-const { materializeWorkspace, parseGrading, clearGradingSlot, persistGradingOutcome, extractExecutorModel } = require('./run-evals');
+const { materializeWorkspace, parseGrading, clearGradingSlot, persistGradingOutcome, extractExecutorModel, findClaudeBin } = require('./run-evals');
 
 const RUNNER = path.join(__dirname, 'run-evals.js');
 
@@ -77,7 +77,10 @@ function runBehavioralWithGrading(root, raw, options = {}) {
   fs.writeFileSync(stub, `
     const assert = require('node:assert/strict');
     require('child_process').execFileSync = (command, args) => {
-      assert.equal(command, 'claude');
+      // The runner resolves a real executable rather than the bare name, so
+      // assert it is still a claude binary without pinning the platform's path.
+      const binary = require('node:path').basename(String(command)).toLowerCase();
+      assert.ok(binary === 'claude' || binary === 'claude.exe', 'unexpected binary: ' + command);
       const executor = args.includes('--output-format');
       require('node:fs').appendFileSync(${JSON.stringify(path.join(root, 'claude-calls.txt'))}, executor ? 'executor\\n' : 'grader\\n');
       if (executor && ${JSON.stringify(Boolean(options.error))}) throw Object.assign(new Error('executor failed'), ${JSON.stringify(options.error || {})});
@@ -977,4 +980,67 @@ test('loads quoted YAML skill identities using their decoded values', () => {
     assert.equal(result.status, 0, result.stdout + result.stderr);
     assert.match(result.stdout, /PASSED/);
   } finally { fs.rmSync(root, { recursive: true, force: true }); }
+});
+
+
+// Tier 3 spawns the executor and grader with execFileSync, which runs no
+// shell and so needs a directly executable path. On Windows every `claude`
+// entry point on PATH is a script or batch wrapper, which made the whole tier
+// fail with ENOENT before the agent read its fixture.
+test('resolves the bare claude name on posix', () => {
+  const resolved = findClaudeBin({
+    platform: 'linux',
+    env: { PATH: '/usr/bin' },
+    exists: () => true,
+    execPath: '/usr/bin/node',
+  });
+  assert.equal(resolved, 'claude', 'posix resolution must stay unchanged');
+});
+
+test('honours CLAUDE_EVAL_BIN on every platform', () => {
+  for (const platform of ['linux', 'darwin', 'win32']) {
+    const resolved = findClaudeBin({
+      platform,
+      env: { CLAUDE_EVAL_BIN: '/custom/claude', PATH: '/usr/bin' },
+      exists: () => false,
+      execPath: '/usr/bin/node',
+    });
+    assert.equal(resolved, '/custom/claude', `override ignored on ${platform}`);
+  }
+});
+
+test('resolves a real executable on windows instead of a shim', () => {
+  const exe = path.win32.join('C:\tools', 'claude.exe');
+  const resolved = findClaudeBin({
+    platform: 'win32',
+    env: { PATH: ['C:\shims', 'C:\tools'].join(';') },
+    // Only the .exe exists; the shims that Node cannot spawn do not.
+    exists: (candidate) => candidate === exe,
+    execPath: 'C:\Program Files\nodejs\node.exe',
+  });
+  assert.equal(resolved, exe);
+});
+
+test('finds the windows executable under a global npm install beside node', () => {
+  const nodeDir = 'C:\Program Files\nodejs';
+  const exe = path.win32.join(nodeDir, 'node_modules', '@anthropic-ai', 'claude-code', 'bin', 'claude.exe');
+  const resolved = findClaudeBin({
+    platform: 'win32',
+    // PATH arrives posix-shaped from a bash shell, so it yields nothing usable
+    // and the search has to fall back to node's own directory.
+    env: { PATH: '/c/Program Files/Git/usr/bin' },
+    exists: (candidate) => candidate === exe,
+    execPath: path.win32.join(nodeDir, 'node.exe'),
+  });
+  assert.equal(resolved, exe);
+});
+
+test('falls back to the bare name when windows has no executable to find', () => {
+  const resolved = findClaudeBin({
+    platform: 'win32',
+    env: { PATH: 'C:\shims' },
+    exists: () => false,
+    execPath: 'C:\Program Files\nodejs\node.exe',
+  });
+  assert.equal(resolved, 'claude', 'must not invent a path that does not exist');
 });
