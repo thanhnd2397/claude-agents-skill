@@ -39,7 +39,7 @@ Sau khi cài, mở Claude Code trong **dự án bạn đang làm** (không phả
 
 | Command | Skill được gọi | Agent | Kết quả |
 |---|---|---|---|
-| `/analyze` | project-analysis | — | Bộ tài liệu trong `docs/analysis/`, vào từ `project-analysis.md`: nghiệp vụ, cấu trúc, stack, dữ liệu, số liệu, giấy phép, rủi ro, cách chạy, kèm `questions.md`. Mỗi nhận định có nhãn `[Verified]`/`[Inferred]`/`[Unknown]` và dẫn chứng `file:dòng`. Chỉ đọc. |
+| `/analyze` | project-analysis | — | Bộ tài liệu trong `docs/analysis/`, vào từ `README.md`, số file tùy quy mô dự án: nghiệp vụ, kiến trúc, stack, dữ liệu, số liệu, giấy phép, cách chạy. Mỗi nhận định có nhãn `[Verified]`/`[Inferred]`/`[Unknown]` và dẫn chứng `file:dòng`. Rủi ro và câu hỏi báo trong chat, thành file khi bạn đồng ý. Chỉ đọc. |
 | `/spec` | spec-driven-development | — | `SPEC.md` (hỏi bạn rồi mới viết) |
 | `/plan` | planning-and-task-breakdown | — | `tasks/plan.md` và `tasks/todo.md`. Chỉ đọc, không sửa code. |
 | `/build` | incremental-implementation + test-driven-development | — | Làm **một** task: viết test fail → code cho pass → chạy toàn bộ test → build → commit → dừng |
@@ -95,7 +95,7 @@ duyệt     duyệt     mỗi task 1 commit     sửa lỗi    GO / NO-GO
 | Sửa bug | `/test` (test tái hiện lỗi trước) | Không cần `/spec` hay `/plan` |
 | Tính năng nhỏ, 1–3 file | `/build` rồi `/review` | Viết spec 2 dòng thẳng trong prompt là đủ |
 | Tính năng vừa và lớn | `/spec` → `/plan` → `/build` → `/review` | Quy trình đầy đủ |
-| Mới nhận một dự án người khác đã làm | `/analyze` trước mọi thứ khác | Một lần cho cả dự án. Chỉ đọc, kết quả nằm ở `docs/analysis/project-analysis.md` |
+| Mới nhận một dự án người khác đã làm | `/analyze` trước mọi thứ khác | Một lần cho cả dự án. Chỉ đọc, kết quả nằm ở `docs/analysis/README.md` |
 | Deploy production | Thêm `/ship` | Tốn nhất (3 subagent). `/ship` tự bỏ qua fan-out nếu thay đổi ≤ 2 file, < 50 dòng và không đụng tới auth, thanh toán, dữ liệu hay config. |
 
 ---
@@ -113,26 +113,41 @@ duyệt     duyệt     mỗi task 1 commit     sửa lỗi    GO / NO-GO
 
 ## Phân tích một codebase mới
 
-Bắt đầu bằng `/analyze` (skill `project-analysis`). Nó đọc dự án và viết một bộ
-tài liệu trong `docs/analysis/`, vào từ `project-analysis.md`:
+Bắt đầu bằng `/analyze` (skill `project-analysis`). Nó đọc dự án, tự đánh giá
+quy mô, rồi viết bộ tài liệu trong `docs/analysis/` theo một trong hai dạng, vào
+từ `README.md`.
+
+**Dự án nhỏ** — dưới 3 domain nghiệp vụ và dưới 10 module:
 
 ```
 docs/analysis/
-├── project-analysis.md            # index: tóm tắt, số liệu, bản đồ tài liệu
-├── technology-stack.md            # ngôn ngữ, framework, phiên bản
-├── business-domain.md             # cây domain, vai trò, feature
-├── structure.md                   # module, trách nhiệm, kiến trúc
-├── inventory.md                   # số liệu và quy tắc đếm
-├── data-and-integrations.md       # schema, API, dịch vụ ngoài
-├── running-and-testing.md         # lệnh cài, chạy, build, test, CI
-├── dependencies-and-licenses.md   # giấy phép và thành phần có thể mất phí
-├── risk-register.md               # rủi ro kèm mức độ và dẫn chứng
-├── questions.md                   # câu hỏi, bạn trả lời tại chỗ
-└── features/<domain>/<feature>.md # tài liệu một nghiệp vụ, tạo khi bạn yêu cầu
+├── README.md        # tóm tắt + số liệu + bản đồ tài liệu
+├── tech.md          # stack, dependency, chạy/test
+└── system.md        # domain + kiến trúc + dữ liệu/tích hợp
 ```
 
-File index luôn có. Các file còn lại chỉ được tạo khi chiều đó thật sự có kết
-quả, nên dự án nhỏ sẽ không có bộ khung mười file rỗng.
+**Dự án lớn** — từ 3 domain, hoặc từ 10 module, hoặc nhiều deployable:
+
+```
+docs/analysis/
+├── README.md        # index, tóm tắt, số liệu
+├── tech.md          # stack, phiên bản, dependency/license, chạy/build/test/CI
+├── domain.md        # cây domain, vai trò, feature
+└── architecture.md  # module, kiến trúc, schema, API, dịch vụ ngoài
+```
+
+Cả hai dạng đều thêm `features/<domain>/<feature>.md` — tài liệu chi tiết một
+nghiệp vụ, chỉ tạo khi bạn yêu cầu.
+
+Dạng đã chọn được ghi vào header của `README.md` kèm số đếm đã quyết định nó.
+Lần chạy sau đọc lại dòng đó và giữ nguyên dạng, thay vì đánh giá lại rồi đổi
+tên toàn bộ file dưới chân bạn. Muốn đổi dạng thì agent phải hỏi trước.
+
+**Hai file không được tạo sẵn.** `risk-register.md` và `questions.md` không thuộc
+dạng nào. Rủi ro và chỗ còn `[Unknown]` luôn được báo trong tin nhắn cuối, kèm
+mức độ và dẫn chứng; agent chỉ tạo file khi bạn yêu cầu, hoặc khi nó đề nghị và
+bạn đồng ý. Không có file không có nghĩa là không được báo. Nếu bộ tài liệu
+đã có sẵn hai file đó từ trước thì chúng được giữ và cập nhật như mọi file khác.
 
 ```
 /analyze
@@ -152,20 +167,26 @@ viết tài liệu riêng cho nghiệp vụ đó thay vì phân tích lại cả
 /analyze Issue refund
 ```
 
-Chạy lại `/analyze` về sau thì nó so commit đã ghi trong index với commit hiện
+Chạy lại `/analyze` về sau thì nó so commit đã ghi trong header với commit hiện
 tại và chỉ phân tích lại phần đã thay đổi. Không có commit để so thì nó phân
 tích lại toàn bộ và nói rõ lý do.
+
+Bộ tài liệu từ bản skill cũ — một file `project-analysis.md`, hoặc bộ mười file
+`technology-stack.md`, `business-domain.md`… — được gộp tại chỗ về đúng dạng dự
+án, không tạo bộ thứ hai. File cũ chỉ bị xóa sau khi nội dung của nó đã nằm
+trong file mới — mọi nhận định, dẫn chứng, câu trả lời `[User]` và id câu hỏi
+đều đi theo.
 
 Bốn điều đáng biết về bộ tài liệu này:
 
 - **Mỗi nhận định có nhãn và dẫn chứng.** `[Verified]` là đọc trực tiếp từ code kèm `file:dòng`, `[Inferred]` là suy luận kèm lý do, `[Unknown]` là code không trả lời được. Bạn biết chỗ nào tin được, chỗ nào chỉ là suy đoán.
-- **Chỗ nào không rõ thành câu hỏi, không thành phỏng đoán.** Câu hỏi nằm trong `questions.md`. Bạn mở file, điền vào dòng `**Answer:**` dưới mỗi câu, rồi chạy lại `/analyze`; hoặc trả lời ngay trong chat. Nhận định tương ứng thành `[User]` kèm ngày xác nhận. Agent không bao giờ tự điền câu trả lời, nên cái gì trong đó là của bạn.
+- **Chỗ nào không rõ thành `[Unknown]`, không thành phỏng đoán.** Nhãn `[Unknown]` nằm ngay trong tài liệu nói về chủ đề đó, nói rõ thiếu gì, và được liệt kê lại trong tin nhắn cuối. Bạn trả lời ngay trong chat, hoặc nhận lời khi agent đề nghị tạo `questions.md` để điền vào dòng `**Answer:**` dưới mỗi câu. Nhận định tương ứng thành `[User]` kèm ngày xác nhận. Agent không bao giờ tự điền câu trả lời, nên cái gì trong đó là của bạn.
 - **Chỉ đọc, và không tự chạy lệnh.** Nó không `npm install`, không `npm test`, không kết nối database; các lệnh tìm thấy được ghi là "not run". Nó cũng chỉ ghi tên biến môi trường và secret, không ghi giá trị.
-- **Số liệu luôn kèm quy tắc đếm.** Mỗi con số trong `inventory.md` ghi rõ đếm gì và loại trừ gì, ví dụ "1 endpoint, là cặp method và path, không tính fallback 404". Một con số không có quy tắc đếm thì không ai kiểm lại được.
+- **Số liệu luôn kèm quy tắc đếm.** Mỗi con số trong `README.md` ghi rõ đếm gì và loại trừ gì, ví dụ "1 endpoint, là cặp method và path, không tính fallback 404". Một con số không có quy tắc đếm thì không ai kiểm lại được.
 
 Sau khi có báo cáo, làm tiếp theo nhu cầu:
 
 1. Gọi skill `context-engineering` để viết `CLAUDE.md` dựa trên báo cáo, bổ sung Tech Stack, Commands, Code Conventions, Boundaries. Chạy sau `/analyze` thì những quy ước ghi vào đều có dẫn chứng, không phải phỏng đoán. Lệnh `/init` có sẵn của Claude Code cũng tạo được `CLAUDE.md` ban đầu nếu bạn muốn một bản nháp nhanh.
 2. Nếu cần ghi lại kiến trúc lâu dài, dùng `documentation-and-adrs`.
-3. Nếu cần audit, dùng `/review`, hoặc gọi trực tiếp agent `security-auditor` hay `web-performance-auditor`. `risk-register.md` **không** phải bản audit: nó ghi lại nguy hiểm mà việc đọc dự án phơi ra, kèm mức độ và verdict (`Confirmed` là đã truy vết được, `Potential` là mới thấy dấu hiệu), không đi tìm cho đủ và không đề xuất cách sửa. File index chỉ nêu tối đa 5 dòng nghiêm trọng nhất. Register rỗng nghĩa là đọc không thấy gì, không phải dự án an toàn.
+3. Nếu cần audit, dùng `/review`, hoặc gọi trực tiếp agent `security-auditor` hay `web-performance-auditor`. Phần rủi ro của `/analyze` **không** phải bản audit: nó ghi lại nguy hiểm mà việc đọc dự án phơi ra, kèm mức độ và verdict (`Confirmed` là đã truy vết được, `Potential` là mới thấy dấu hiệu), không đi tìm cho đủ và không đề xuất cách sửa. `README.md` chỉ nêu tối đa 5 dòng nghiêm trọng nhất. Không thấy rủi ro nào nghĩa là đọc không thấy gì, không phải dự án an toàn.
 4. Chuẩn bị sửa gì thì sang `/spec`.

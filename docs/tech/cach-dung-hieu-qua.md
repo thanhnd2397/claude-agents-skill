@@ -22,11 +22,11 @@ Ba tầng dưới đây giả định bạn đã hiểu codebase. Nếu vừa nh
 /analyze
 ```
 
-Nó đọc dự án và viết một bộ tài liệu trong `docs/analysis/`, vào từ `project-analysis.md`: nghiệp vụ, cấu trúc, tech stack, dữ liệu, tích hợp, số liệu, giấy phép, rủi ro, cách chạy và test. Giá trị thật không nằm ở việc có một bản tóm tắt — mà ở chỗ **mỗi nhận định đều có nhãn**: `[Verified]` kèm `file:dòng`, `[Inferred]` kèm lý do, `[Unknown]` thành câu hỏi trong `questions.md`. Agent không biết thì nó nói là không biết, thay vì nói chắc nịch một điều nó đoán — đó là cách đọc code của agent gây tốn kém nhất.
+Nó đọc dự án và viết một bộ tài liệu trong `docs/analysis/`, vào từ `README.md`, với số file tùy quy mô: dự án nhỏ được `README.md` + `tech.md` + `system.md`; dự án lớn — từ 3 domain hoặc 10 module trở lên — được tách thêm `domain.md` và `architecture.md`. Giá trị thật không nằm ở việc có một bản tóm tắt — mà ở chỗ **mỗi nhận định đều có nhãn**: `[Verified]` kèm `file:dòng`, `[Inferred]` kèm lý do, `[Unknown]` nói rõ thiếu gì và cái gì sẽ chốt được nó. Agent không biết thì nó nói là không biết, thay vì nói chắc nịch một điều nó đoán — đó là cách đọc code của agent gây tốn kém nhất.
 
-Một lần cho cả dự án. Chỉ cần một phần thì truyền phạm vi: `/analyze src/payments`. Cần hiểu sâu đúng một nghiệp vụ thì truyền tên nó: `/analyze Issue refund`. Chạy xong, điền câu trả lời vào `questions.md` rồi mới gọi `context-engineering` viết `CLAUDE.md` — lúc đó quy ước ghi vào đều có dẫn chứng.
+Một lần cho cả dự án. Chỉ cần một phần thì truyền phạm vi: `/analyze src/payments`. Cần hiểu sâu đúng một nghiệp vụ thì truyền tên nó: `/analyze Issue refund`. Chạy xong, trả lời những chỗ còn `[Unknown]` ngay trong chat — hoặc nhận lời khi nó đề nghị tạo `questions.md` để bạn điền dần — rồi mới gọi `context-engineering` viết `CLAUDE.md`, lúc đó quy ước ghi vào đều có dẫn chứng.
 
-Đừng dùng `risk-register.md` như bản audit. Nó ghi lại nguy hiểm mà việc đọc phơi ra, kèm mức độ và verdict, không đi tìm cho đủ và không đề xuất cách sửa; file index chỉ nêu tối đa 5 dòng. Muốn audit thật thì gọi `security-and-hardening` hoặc `/review`.
+Rủi ro mặc định **không** thành file. Những gì việc đọc phơi ra đều được báo trong tin nhắn cuối, kèm mức độ, verdict và dẫn chứng; cái nào `Critical` hay `High` thì thêm một dòng vào `README.md`. Muốn có `risk-register.md` riêng thì agent phải hỏi trước. Dù có file hay không, đây không phải bản audit: nó không đi tìm cho đủ và không đề xuất cách sửa. Muốn audit thật thì gọi `security-and-hardening` hoặc `/review`.
 
 ---
 
