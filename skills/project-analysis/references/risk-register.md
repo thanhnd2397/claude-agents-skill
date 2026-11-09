@@ -13,8 +13,15 @@ or one too long to state in a message — and then only after they say yes.
 So the evidence bar, the severity rubric and the entry format below apply
 whether or not a file ends up on disk. Reaching the handoff is not a lower
 standard than reaching the register. Never hold a finding back because there is
-nowhere to file it, and never create the file unasked. An existing
-`risk-register.md` is read, kept and updated like any other file in the set.
+nowhere to file it, and never create the file unasked.
+
+An existing `risk-register.md` is read and kept, never deleted or emptied. It
+is not, however, consent to append: preserving its ids, applying what the code
+now shows, and marking an entry `Resolved` are always fine, but adding findings
+this run produced needs the same yes that creating the file would. This bites
+hardest on a narrowly-scoped run — tracing one operation surfaces things the
+broader pass missed, and a register that already exists makes appending them
+feel like housekeeping rather than a decision the user never made.
 
 ## What This Is, and Is Not
 

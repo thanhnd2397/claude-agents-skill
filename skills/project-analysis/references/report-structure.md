@@ -174,6 +174,14 @@ When a feature document is written, add a link to it from that feature's entry
 in the domain tree — in `domain.md` or `system.md`. A feature document nobody
 can reach from the tree will be missed on the next rerun and drift.
 
+That link is the only change a feature-scoped run makes outside its own
+document. Reading one operation in depth will expose risks and gaps the broader
+pass missed; record them in the feature document where they bear on it, and
+report the rest in the handoff. Do not append them to the index, the register
+or the questions file, and do not restate the index's counts or issue list to
+match — the user asked for one operation documented, not for the surrounding
+set to grow.
+
 ## Cross-Linking Rules
 
 - Every file links back to `README.md`.
@@ -203,8 +211,18 @@ A finding withheld because its file does not exist is the failure this
 arrangement exists to avoid. The file changes where a finding is filed, not
 whether the user learns about it.
 
-An existing `risk-register.md` or `questions.md` is read, kept and updated like
-any other file in the set, including through a shape change.
+An existing `risk-register.md` or `questions.md` is read and kept, including
+through a shape change. What "updated" covers is narrow:
+
+| Always allowed | Needs a yes |
+|---|---|
+| Preserving ids, statuses, answers | Appending findings this run produced |
+| Applying answers the user gave | Adding questions for this run's new gaps |
+| Re-checking citations whose lines moved | Expanding an entry past what its evidence changed |
+| Marking an entry `Resolved` or `Obsolete` against the code | Raising the index's issue list to match |
+
+The file existing is not consent to grow it. Permission tracks the finding, not
+the file: report the new ones, offer to add them, and wait.
 
 ## The Questions File
 

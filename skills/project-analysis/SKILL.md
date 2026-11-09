@@ -79,10 +79,9 @@ re-judging it every run would rewrite the whole set for no gain. Change shape
 only when the user asks, or when the project has crossed the boundary and
 stayed well past it, and ask first: it renames every file.
 
-Write every file the shape names, and no others. These are consolidated
-documents, not one file per dimension: a dimension with no findings gets its
-heading and one line saying what was checked and that nothing was found. Never
-write a file the shape does not list, and never restate a document in the index
+Write every file the shape names and no others. These are consolidated
+documents, not one per dimension: a dimension with no findings gets its heading
+and one line saying what was checked. Never restate a document in the index
 beyond its headline.
 
 ### The two files nobody gets by default
@@ -103,15 +102,18 @@ hears about it:
   up, or when one blocks a decision the user is about to take.
 
 Never hold a finding back because its file does not exist. *"I saw a committed
-credential but there was no register to put it in"* is the one failure this
+credential but there was no register to put it in"* is the failure this
 arrangement must not produce.
 
-An existing `risk-register.md` or `questions.md` is read, kept and updated like
-any other file in the set. Not written by default does not mean deleted. The
-same goes for questions or risks a previous single-file report kept in a
-section: carrying them into their file is preservation, and needs no
-permission. Permission is for findings this run produced where no previous set
-had the file.
+An existing `risk-register.md` or `questions.md` is read and kept — not
+written by default does not mean deleted — and carrying questions or risks
+forward from a previous set is preservation, needing no permission.
+
+But an existing file is not consent to append. Preserving ids and answers,
+applying what the user answered, re-checking moved citations and marking an
+entry `Resolved` are always fine. **Adding findings this run produced is a
+different act and needs the same yes as creating the file would.** Permission
+tracks the finding, not the file.
 
 ### What the index carries
 
@@ -169,10 +171,9 @@ one labeled `[Unknown]` for what it does not. A gap mentioned in prose and left
 unlabeled reads as a complete finding.
 
 An `[Unknown]` claim says what is missing and what would settle it, in the
-document that owns the subject. It points at a question id — `→ Q2` — only once
-a `questions.md` exists, which is not by default. Without that file the gap is
-still labeled, still in its document, and still listed in the handoff; what it
-must never become is unlabeled prose.
+document that owns the subject, and is listed in the handoff. It cites a
+question id — `→ Q2` — only where a `questions.md` exists, which is not by
+default. What it must never become is unlabeled prose.
 
 A code comment or README statement proves only that someone wrote it. Do not
 label behavior `[Verified]` from documentation alone: cite the documentation,
@@ -198,19 +199,16 @@ update that set, not start a second one. Three layouts turn up:
 - **The current shapes.** Read the `Shape:` line in the README header and keep
   that shape for this run.
 - **An older ten-file set** — `project-analysis.md` plus `technology-stack.md`,
-  `business-domain.md`, `structure.md`, `inventory.md`,
-  `data-and-integrations.md`, `running-and-testing.md`,
-  `dependencies-and-licenses.md`. Consolidate it into the shape this project
-  qualifies for, and delete the files the shape does not name once their
-  content has landed in the file that now owns it.
+  `business-domain.md`, `structure.md`, `inventory.md`, and the rest.
+  Consolidate it into the shape this project qualifies for, deleting a file the
+  shape does not name once its content has landed in the file that now owns it.
 - **A single-file report** at `docs/analysis/project-analysis.md`. Its sections
   move into the new documents.
 
 Consolidating is the one time this skill deletes a file. Nothing is discarded:
-every claim, citation, `[User]` answer and risk entry moves to the document
-that now owns it, and the move is verified before the old file goes. An
-existing `risk-register.md` or `questions.md` survives consolidation with its
-content untouched, whatever the shape — they are kept, not regenerated.
+every claim, citation, `[User]` answer and risk entry moves to the document that
+now owns it, and the move is verified before the old file goes. An existing
+`risk-register.md` or `questions.md` survives with its content untouched.
 
 The mapping and the verification step are in
 [references/report-structure.md](references/report-structure.md).
@@ -237,7 +235,14 @@ protocol is in [references/report-structure.md](references/report-structure.md).
 
 When the scope names a feature or operation that the existing set already
 places in the domain tree, the deliverable is that feature's document, not a
-re-analysis of the project.
+re-analysis of the project. Such a run writes two things and no more: the
+feature document, and the link to it from that feature's entry in the domain
+tree.
+
+Tracing one operation closely turns up risks and gaps the broader pass missed.
+They belong in the feature document where they bear on it, and in the handoff —
+not appended to the index, the register or the questions file, even where those
+already exist. Offer the additions and let the user decide.
 
 ### 2. Discovery
 
@@ -389,8 +394,8 @@ Then offer the two optional files, in one question, and wait:
   state here
 - `questions.md`, when several gaps have piled up, or one blocks a decision
 
-Write neither without a yes. If the user declines, the findings stay where they
-already are — in this message and in the documents — and nothing is dropped.
+Write neither without a yes. If the user declines, the findings stay in this
+message and in the documents, and nothing is dropped.
 
 Say what was not analyzed. Then stop: suggest `spec-driven-development` as the
 next step for a planned change, and `security-and-hardening` for a real audit.
@@ -428,6 +433,8 @@ and quoted in the `[User]` claim.
 | "While I'm here I'll note every risk I can find" | That is `security-and-hardening`, exhaustively and with fixes. This phase records what the reading exposed. |
 | "There's no register file, so the finding has nowhere to go" | It goes in the handoff, with its severity and citation. The file is optional; the finding is not. |
 | "I found risks, so I'll write the register" | Not without being asked. Report them, offer the file, wait. |
+| "The register already exists, so I can add to it" | It exists because an earlier run was asked for it. Permission tracks the finding, not the file. |
+| "They asked about one feature, but I found more while in there" | Put it in the feature document where it bears on the feature, and the rest in the handoff. One operation documented is not a mandate to grow the shared files. |
 | "The user didn't ask for `questions.md`, so the gap drops" | The gap stays labeled `[Unknown]` in the document that owns it and listed in the handoff. Only the file is optional. |
 | "No risks are written down, so the project looks secure" | Nothing was noticed while reading. Say that, or the reader takes silence for a clean bill of health. |
 | "I'll ask each question as it comes up" | That interrupts the user for questions later reading may answer. Collect them and ask at the end. |
@@ -451,6 +458,8 @@ and quoted in the `[User]` claim.
 - A risk entry that proposes a fix, or a register with no handoff note
 - A risk the reading exposed that reaches neither a document nor the handoff
 - A `risk-register.md` or `questions.md` created without being asked for
+- New entries appended to an existing register or questions file without a yes
+- A feature-scoped run that touches anything but the feature document and its one link
 - An existing `risk-register.md` or `questions.md` deleted, emptied, or regenerated
 - A file under `docs/analysis/` that the chosen shape does not name
 - No `Shape:` line in the README header, or a rerun that changed shape without asking
@@ -479,7 +488,8 @@ After completing the analysis, confirm:
 - [ ] Every dependency and every external service carries one commercial class, and no price is stated
 - [ ] Every count states what was counted and what was excluded, and is broken down by domain or module
 - [ ] Every risk the reading exposed was reported in the handoff with its severity, verdict and citation, and every `Critical` or `High` one has its line in the README
-- [ ] No `risk-register.md` or `questions.md` was written unless one already existed or the user said yes; any that existed kept its content, its ids and its answers
+- [ ] No `risk-register.md` or `questions.md` was written unless one already existed or the user said yes; any that existed kept its content, its ids and its answers, and gained no entry from this run without a yes
+- [ ] A run scoped to one feature changed only that feature's document and the one link to it from the domain tree
 - [ ] Every `[Unknown]` claim sits in the document that owns its subject and appears in the handoff; question ids are used only where a `questions.md` exists
 - [ ] Every risk entry, in any register written, has a severity, a verdict, a citation and no proposed fix, and the register ends with the handoff note
 - [ ] Every "unchanged" claim names the pre-existing baseline commit it was diffed against; where there was none, the README says so and the analysis was done in full
