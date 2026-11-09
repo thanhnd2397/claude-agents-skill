@@ -49,7 +49,8 @@ you skipped is where the business rules usually hide.
 
 ## The Domain Hierarchy
 
-Record it as a tree in `business-domain.md`, four levels at most:
+Record it as a tree in the domain document — `domain.md` in the large shape,
+the domain section of `system.md` in the small one — four levels at most:
 
 ```
 Project
@@ -67,7 +68,7 @@ a link to its feature document if one exists.
 
 ## Feature Record
 
-For each feature in `business-domain.md`, and in full in a feature document:
+For each feature in the domain tree, and in full in a feature document:
 
 - **Purpose.** What it is for, in business terms.
 - **Actors.** Who can trigger it, and the check that enforces that.
@@ -123,9 +124,10 @@ list lives.
 
 ## Reporting the Counts
 
-`inventory.md` carries the statistics table, then the inventories behind it —
+The README carries the statistics table, then the inventories behind it —
 the endpoint list, the job list, the integration list — so each number can be
-recounted by a reader. The index carries the table only.
+recounted by a reader. Keep the table near the top, where a reader entering the
+set will see it, and the lists below it.
 
 Break every total down by domain or module. A single total of 240 endpoints
 tells nobody anything; 240 across four modules, one holding 180, tells them

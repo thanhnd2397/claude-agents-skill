@@ -70,7 +70,7 @@ CI workflow files, `*.service` units.
 From these, establish the deployment target, the managed services the project
 expects, and the hostnames and ports it binds. A cloud service named only in
 Terraform is still part of the stack, and it belongs in
-`dependencies-and-licenses.md` too.
+`tech.md` too.
 
 ## Data Stores and Access Layers
 
