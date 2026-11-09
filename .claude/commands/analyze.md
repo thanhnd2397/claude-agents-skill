@@ -1,5 +1,5 @@
 ---
-description: Analyze an existing project into a linked, evidence-backed doc set — business domain, structure, tech stack, data, integrations, licensing, counts, risks, how to run it
+description: Analyze an existing project into a linked, evidence-backed doc set sized to the project — business domain, architecture, tech stack, data, integrations, licensing, counts, how to run it
 disable-model-invocation: true
 ---
 
@@ -16,11 +16,28 @@ Resolve the scope as follows:
   analysis: write that feature's document under `docs/analysis/features/`
   rather than re-analyzing the project.
 
-Write the document set to `docs/analysis/`, entered at
-`docs/analysis/project-analysis.md`. Read only, apart from that directory. If
-an analysis is already there, update it in place and follow the skill's rerun
-protocol — never start a second set, and never overwrite a user's answers.
+Write the document set to `docs/analysis/`, entered at `docs/analysis/README.md`.
+Judge the project's size and use the shape the skill specifies for it:
 
-Finish every phase before asking anything. Then report the summary, the counts,
-the highest-severity risks, the files written, and the open questions with
-where to answer them, and stop.
+- **Large** — three or more business domains, or ten or more modules, or more
+  than one deployable: `README.md`, `tech.md`, `domain.md`, `architecture.md`.
+- **Small** — anything less: `README.md`, `tech.md`, `system.md`.
+
+Record the shape and the counts behind it in the README header. On a rerun,
+read that line and keep the shape rather than deciding again.
+
+Write no file the shape does not name. In particular, do **not** create
+`risk-register.md` or `questions.md`: report every risk and every gap in your
+closing message instead, then offer those two files and wait for an answer
+before writing either. If one already exists, keep and update it.
+
+Read only, apart from `docs/analysis/`. If an analysis is already there — in
+any earlier layout — consolidate it in place and follow the skill's rerun
+protocol. Never start a second set, never delete an old file before confirming
+its content landed in the file that now owns it, and never overwrite a user's
+answers.
+
+Finish every phase before asking anything. Then report the summary, the shape
+and its counts, the headline counts, every risk with its verdict and citation,
+every open gap, and the files written — then ask about the two optional files
+and stop.

@@ -3,6 +3,19 @@
 How `project-analysis` records danger it finds while reading a project. Used by
 the risk phase.
 
+**The register file is not written by default.** Neither document shape
+includes `risk-register.md`. The findings below are gathered on every run and
+reported to the user in the handoff with their severity, verdict and citation;
+a `Critical` or `High` one also gets its line in the README. The file itself is
+created only when the user asks for it, or when there is more than one finding
+or one too long to state in a message — and then only after they say yes.
+
+So the evidence bar, the severity rubric and the entry format below apply
+whether or not a file ends up on disk. Reaching the handoff is not a lower
+standard than reaching the register. Never hold a finding back because there is
+nowhere to file it, and never create the file unasked. An existing
+`risk-register.md` is read, kept and updated like any other file in the set.
+
 ## What This Is, and Is Not
 
 This is a register, not an audit. The analysis reads the project to describe
@@ -99,7 +112,8 @@ reading hits them.
 
 ## Register Format
 
-`risk-register.md`, highest severity first:
+`risk-register.md`, once it exists, highest severity first. The same fields
+carry a finding reported in the handoff, in prose:
 
 ```markdown
 ## R003 — Refund endpoint checks role but not ownership
@@ -130,12 +144,13 @@ wrong.
 
 ## The Index Summary
 
-The index carries at most five one-line entries, the highest severity first,
-each linking to its register row. This cap is deliberate: the index is read by
+The README carries at most five one-line entries, the highest severity first,
+each linking to its register row where a register exists. Every `Critical` and
+`High` finding is among them. This cap is deliberate: the index is read by
 somebody deciding whether to read further, and a list of thirty findings there
 is a wall, not a signal.
 
-The register itself has no cap.
+The register itself has no cap, and neither does the handoff.
 
 ## Handoff
 
@@ -143,6 +158,7 @@ End the register with what it does not cover: that no exhaustive search was
 performed, that absence of a finding is not evidence of safety, and that
 `security-and-hardening` is the next step for a real audit.
 
-Say this even when the register is empty. An empty risk register from a reading
-pass means nothing was noticed, and a reader will take it as a clean bill of
-health unless told otherwise.
+Say this even when nothing was found. Where no register was written, the same
+sentence belongs in the README summary: a set with no risk section means
+nothing was noticed while reading, and a reader takes silence for a clean bill
+of health unless told otherwise.
