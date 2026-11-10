@@ -65,7 +65,7 @@ Run the lifecycle in order for the project's first real feature:
 ### Greenfield anti-patterns
 
 - **Skipping `/spec` because "it's just a prototype."** Prototypes become products. The spec is the cheapest artifact you'll ever write for this codebase.
-- **Loading all 26 skills into every session.** It wastes context and dilutes the ones that matter. Load by phase; let the host's native router or `using-agent-skills` route, but not both.
+- **Loading all 27 skills into every session.** It wastes context and dilutes the ones that matter. Load by phase; let the host's native router or `using-agent-skills` route, but not both.
 - **Deferring observability until "there's something to observe."** Instrument as you build, retrofitting structured logging is a Path B problem you're choosing to create.
 
 ---
@@ -78,7 +78,7 @@ In an established codebase, the risk profile inverts: the danger isn't building 
 
 Goal: the agent understands the codebase before it modifies anything.
 
-1. **`project-analysis` first.** Run `/analyze` to read the codebase into a linked evidence-backed doc set under `docs/analysis/`, sized to the project: `README.md` + `tech.md` + `system.md` for a small one, with `domain.md` and `architecture.md` split out once it passes three domains or ten modules. Every claim is labeled `[Verified]`, `[Inferred]` or `[Unknown]` and cited, so the rules file you write next is built on what the code actually says rather than on the agent's confident guesses. What the code can't answer comes back as a labeled gap in the closing message; a `questions.md` or `risk-register.md` is only created if you ask for one.
+1. **`project-analysis` first.** Run `/analyze` to read the codebase. By default the answer comes back in the conversation and nothing is written — ask for files and you get a linked evidence-backed doc set under `docs/analysis/`, sized to the project: `README.md` + `tech.md` + `system.md` for a small one, with `domain.md` and `architecture.md` split out once it passes three domains or ten modules. Every claim is labeled `[Verified]`, `[Inferred]` or `[Unknown]` and cited, so the rules file you write next is built on what the code actually says rather than on the agent's confident guesses. What the code can't answer comes back as a labeled gap in the closing message, and anything alarming the reading exposed is named plainly and handed to `risk-assessment` to grade rather than graded in passing.
 2. **`context-engineering` second, building on that report.** Write the project rules file describing the real conventions, the ones in the code, not the ones in the wiki. Include build/test commands, directory meaning, known landmines ("don't touch `legacy/billing`, it has no tests and three known workarounds").
 3. **`code-review-and-quality` on incoming changes.** Reviewing is zero-risk and immediately valuable: the five-axis review and its severity labels (which separate what blocks a merge, Critical and Required, from what doesn't) work on any PR regardless of the codebase's state.
 4. **`debugging-and-error-recovery` for the bugs you were fixing anyway.** The five-step triage (reproduce → localize → reduce → fix → guard) shines in unfamiliar code, and the "guard" step starts building the regression suite you don't have.

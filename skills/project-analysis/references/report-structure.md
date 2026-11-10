@@ -1,7 +1,12 @@
 # Report Structure
 
-The document set `project-analysis` produces, and the rules that keep it
-navigable and cheap to update. Read this before writing any file.
+The document set `project-analysis` produces **when it was asked to write
+one**, and the rules that keep it navigable and cheap to update. Read this
+before writing any file.
+
+Nothing here applies to a run that was asked a question. That run answers in
+the conversation and creates no file; the claim labels, the citations and the
+counting rules still hold, and the file layout below is simply not involved.
 
 ## The Two Shapes
 
@@ -46,7 +51,7 @@ change with the shape; only how many files carry it does.
 
 | Content | Large | Small |
 |---|---|---|
-| Summary, counts, serious issues, document map | `README.md` | `README.md` |
+| Summary, counts, document map | `README.md` | `README.md` |
 | Languages, frameworks, versions, configuration | `tech.md` | `tech.md` |
 | Dependencies, licences, commercial exposure | `tech.md` | `tech.md` |
 | Install, run, build, test, CI, env var names | `tech.md` | `tech.md` |
@@ -95,24 +100,29 @@ consolidated into the current shape on the next run.
 | `business-domain.md` | `domain.md` | `system.md` |
 | `structure.md` | `architecture.md` | `system.md` |
 | `data-and-integrations.md` | `architecture.md` | `system.md` |
-| `risk-register.md` | stays, untouched in content | stays, untouched in content |
-| `questions.md` | stays, untouched in content | stays, untouched in content |
+| `risk-register.md` | left exactly as it is | left exactly as it is |
+| `questions.md` | left exactly as it is | left exactly as it is |
 | `features/**` | unchanged | unchanged |
 
-A single-file report keeps its questions and its risks in sections rather than
-files. Those sections are carried over, not dropped:
+This skill no longer writes those two files. One that exists is read, left
+byte-for-byte as it is, and never deleted, emptied, extended or regenerated —
+including through a shape change. Not writing a file is not permission to
+destroy somebody's.
 
-| Old section | Goes to |
+A single-file report keeps its questions and its findings in sections rather
+than files. Those sections are carried over as claims in the document that now
+owns the subject, not dropped:
+
+| Old section | Becomes |
 |---|---|
-| `Open questions`, or any numbered `Q<n>` list | `questions.md` |
-| `Serious issues noticed`, or any `R<n>` list | `risk-register.md` |
+| An answered question, or any `[User]` assertion | A `[User]` claim, with the answer and its date preserved |
+| An open question, or any numbered `Q<n>` entry | An `[Unknown]` claim where its subject is covered, keeping the question's wording and saying what would settle it |
+| `Serious issues noticed`, or any `R<n>` entry | Its factual part as a labeled, cited claim where its subject is covered, plus one plain line in the handoff pointing at `risk-assessment` |
 
-Carrying questions or risks forward from a previous set **is** preservation, so
-it does not need permission — the content already existed and the ids have to
-land somewhere stable. What needs permission is creating either file for
-findings this run produced, where no previous set had them. Preserve the ids,
-the statuses, the answers and the wording exactly; add nothing of your own
-under an answer line.
+Carrying this content forward is preservation, not a new finding: the wording,
+the dates and the answers are kept as they are. What does not carry over is a
+severity or a verdict an earlier run assigned — restate the fact and let
+`risk-assessment` grade it. No new file appears for any of it.
 
 Consolidating is the only time this skill deletes a file, and the order is
 fixed:
@@ -125,8 +135,8 @@ fixed:
 
 A deletion before step 2 is how an analysis loses a `[User]` answer that no
 amount of re-reading the code can recover. `risk-register.md` and
-`questions.md` are never deleted here: they are kept as they are, even though
-neither is written by default any more.
+`questions.md` are never deleted here either: they are kept as they are, even
+though neither is written any more.
 
 ## Index File
 
@@ -138,10 +148,12 @@ of the project without opening anything else. It carries, in order:
    was left unread.
 2. **Summary.** What the project does, for whom, with what.
 3. **Counts.** The headline figures, each with its counting rule.
-4. **Serious issues.** Up to five one-line, labeled, cited entries — every
-   `Critical` and `High` finding at least. Omit the section when there are
-   none, and say in the summary that nothing was noticed while reading.
-5. **Document map.** A link to every file written, with one line each.
+4. **Document map.** A link to every file written, with one line each.
+
+There is no issues section. Anything alarming the reading exposed goes in the
+handoff message as one plain cited line, ungraded, with `risk-assessment`
+offered to grade it — an index that assigns severities is doing that skill's
+job badly.
 
 Record the commit as the short hash and whether the tree was clean. An analysis
 of a dirty tree is an analysis of something nobody else can check out, and the
@@ -174,6 +186,13 @@ When a feature document is written, add a link to it from that feature's entry
 in the domain tree — in `domain.md` or `system.md`. A feature document nobody
 can reach from the tree will be missed on the next rerun and drift.
 
+That link is the only change a feature-scoped run makes outside its own
+document. Reading one operation in depth will expose gaps the broader pass
+missed; record them in the feature document where they bear on it, and report
+the rest in the handoff. Do not append them to the index or to any other file
+the set already holds, and do not restate the index's counts to match — the
+user asked for one operation documented, not for the surrounding set to grow.
+
 ## Cross-Linking Rules
 
 - Every file links back to `README.md`.
@@ -181,86 +200,38 @@ can reach from the tree will be missed on the next rerun and drift.
 - A claim lives in exactly one file. Other files link to it.
 - Code references are `path/to/file.ext:line`, relative to the project root.
 
-## The Optional Files
+## Files This Skill Does Not Write
 
-`risk-register.md` and `questions.md` belong to neither shape. Each is written
-only when the user asks for it, or when the analysis produced enough to warrant
-offering one and the user said yes.
+The only files that exist are the ones the chosen shape names, plus feature
+documents that were asked for. In particular:
 
-Offer the register when there is more than one finding, or one whose entry is
-too long to state in the handoff. Offer the questions file when several gaps
-have piled up, or when one blocks a decision the user is about to take. Put
-both in the one closing question, name what each would contain, and wait.
+- **No issues or register file.** Anything alarming the reading exposed is
+  named in the handoff, in one plain cited line, with no severity and no
+  verdict. `risk-assessment` grades it if the user wants that.
+- **No questions file.** A gap is an `[Unknown]` claim in the document that
+  owns its subject, saying what is missing and what would settle it, and it is
+  repeated in the handoff. The user answers in conversation.
 
-What never depends on the answer:
+Where either file already exists from an earlier version of this skill, it is
+read and left exactly as it is. Reading it is useful — it holds `[User]`
+answers and question wording worth preserving as claims — but it is never
+written to, emptied, regenerated or deleted.
 
-- Every risk the reading exposed is in the handoff, with its severity, verdict
-  and citation, and every `Critical` or `High` one has its line in the README.
-- Every gap is an `[Unknown]` claim in the document that owns its subject, and
-  is listed in the handoff.
-
-A finding withheld because its file does not exist is the failure this
-arrangement exists to avoid. The file changes where a finding is filed, not
-whether the user learns about it.
-
-An existing `risk-register.md` or `questions.md` is read, kept and updated like
-any other file in the set, including through a shape change.
-
-## The Questions File
-
-Where a `questions.md` exists, it holds everything the code cannot answer. One
-file, not a question file plus an answer file: the user answers in place, under
-the question, so a question and its answer cannot drift apart and no id has to
-be matched across two documents.
-
-Each entry:
-
-```markdown
-## Q007 — Does registration require email verification?
-
-- **Domain:** User Management
-- **Feature:** User Registration
-- **Priority:** High
-- **Status:** Pending
-
-**Why this matters.** It decides the account lifecycle and whether an
-unverified account can authenticate.
-
-**Current understanding.** `[Verified]` Registration inserts the user with
-`status = 'active'`. (`src/users/register.js:48`) No verification token is
-written and no mailer is called on that path.
-
-**Expected answer.** Yes / No / Other.
-
-**Answer:**
-```
-
-Rules:
-
-- Ids are stable and never reused. A resolved question keeps its number.
-- `Status` is `Pending`, `Answered`, or `Obsolete`. Nothing else.
-- Priority is `High` when a wrong guess would change the design, `Medium` when
-  it would change a document, `Low` otherwise.
-- Never write anything under the answer line yourself. That line belongs to the
-  user, and an agent-written answer is indistinguishable from a real one on the
-  next run.
-- A question marked `Obsolete` records why in one line and stays in the file.
-- Do not re-ask an answered question, in this file or in conversation.
-- Where the file exists, an `[Unknown]` claim links to its question by id.
+What never depends on any of this: every gap reaches the user, and nothing is
+withheld because there is no file to put it in. A finding withheld for want of
+a filing place is the failure this arrangement exists to avoid.
 
 ## Applying Answers
 
-When the user has answered, for each entry whose answer line is no longer
-empty:
+Answers arrive in conversation. For each gap the user has answered:
 
-1. Relabel the matching claim `[User]`, with the answer and the date.
-2. Set `Status: Answered` and leave the question and the answer text untouched.
-3. Update any feature document that depended on the gap.
-4. Leave `Pending` entries alone.
+1. Relabel the matching claim `[User]`, quoting the answer, with the date.
+2. Update any document or feature document that depended on the gap.
+3. Leave every unanswered gap as the `[Unknown]` claim it already is.
 
-An answer given in conversation instead of in the file is applied the same way,
-and quoted in the `[User]` claim. Where no `questions.md` exists, that is the
-only route an answer arrives by.
+Never write an answer yourself, and never re-ask a gap that has one. Where the
+user answered by editing a file an older run left behind, read the answer from
+it and apply it the same way — without writing back to that file.
 
 Keep what the user asserted and what the code shows apart. A `[User]` claim
 says a human asserted this; it does not become `[Verified]`, because nothing in
@@ -285,7 +256,7 @@ A rerun exists to avoid re-reading a project that has barely changed.
    `tech.md`; a changed route touches the counts and the feature that owns it;
    a changed migration touches the data section.
 4. Re-analyze those documents only. Recount any statistic whose inventory
-   changed, and recheck any risk whose cited lines moved.
+   changed, and recheck any claim whose cited lines moved.
 5. Leave untouched documents as they are, and update the index header to the
    new commit. Keep the recorded shape.
 6. Mark a document whose cited lines no longer exist as stale in one line,
@@ -295,7 +266,7 @@ Nothing is unchanged, up to date, or already covered without a baseline diff
 behind the claim. A clean working tree does not establish it: it says nobody
 has edited the files since the last commit, not that the analysis matches them.
 
-Preserve every `[User]` claim and every answered question through a rerun,
+Preserve every `[User]` claim and every recorded answer through a rerun,
 whatever else changes. They are the only content in the set that cannot be
 recovered by reading the code again.
 

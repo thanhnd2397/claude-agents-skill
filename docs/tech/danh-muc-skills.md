@@ -1,4 +1,4 @@
-# Danh mục 26 skill (tiếng Việt)
+# Danh mục 27 skill (tiếng Việt)
 
 Tài liệu này dành cho lúc bạn muốn **gọi skill trực tiếp**, không đi qua command. Mỗi mục ghi: skill làm gì, khi nào nên gọi, và nó tạo ra cái gì. Nội dung lấy từ `description` thật trong `skills/*/SKILL.md`.
 
@@ -30,7 +30,7 @@ Claude chỉ thấy `name` + `description` của skill rồi tự quyết địn
 
 ---
 
-## 17 skill không có command
+## 18 skill không có command
 
 Phần lớn skill **không** có command tương ứng. Với những skill này, gọi trực tiếp là cách duy nhất để dùng chúng:
 
@@ -46,6 +46,7 @@ Phần lớn skill **không** có command tương ứng. Với những skill nà
 | `browser-testing-with-devtools` | Test trong browser thật qua Chrome DevTools MCP | [Verify](#giai-đoạn-4--kiểm-chứng-verify) |
 | `debugging-and-error-recovery` | Tìm nguyên nhân gốc thay vì đoán | [Verify](#giai-đoạn-4--kiểm-chứng-verify) |
 | `security-and-hardening` | Bịt lỗ hổng OWASP, rà soát dependency | [Review](#giai-đoạn-5--soát-xét-review) |
+| `risk-assessment` | Chấm điểm một rủi ro đã tìm thấy: verdict + severity | [Review](#giai-đoạn-5--soát-xét-review) |
 | `performance-optimization` | Tối ưu hiệu năng — đo trước, tối ưu sau | [Review](#giai-đoạn-5--soát-xét-review) |
 | `git-workflow-and-versioning` | Tách working tree bừa thành commit nguyên tứ, PR, release | [Ship](#giai-đoạn-6--phát-hành-ship) |
 | `ci-cd-and-automation` | Dựng pipeline build & deploy, quality gate | [Ship](#giai-đoạn-6--phát-hành-ship) |
@@ -66,7 +67,7 @@ Cột "Chi tiết" dẫn tới bảng đầy đủ ở dưới: gọi khi nào, 
 |---|---|---|---|---|
 | **interview-me** | Phỏng vấn bạn **mỗi lần một câu** cho tới khi hiểu ~95% ý định thật, thay vì đoán rồi làm sai | Yêu cầu còn thiếu "cho ai" và "vì sao bây giờ". Hoặc bạn muốn bị chất vấn: "grill me", "chắc chưa?" | Bản mô tả ý định đã được xác nhận | — |
 | **idea-refine** | Mài ý tưởng thô thành khái niệm rõ ràng: mở rộng nhiều phương án (divergent) rồi chốt một (convergent) | Ý tưởng còn mơ hồ, hoặc muốn thử sức chịu đựng của giả định trước khi lập kế hoạch | Danh sách phương án + phương án được chọn kèm lý do | — |
-| **project-analysis** | Phân tích codebase có sẵn thành một bộ tài liệu có dẫn chứng, số file tùy quy mô dự án: miền nghiệp vụ, kiến trúc, tech stack, dữ liệu, tích hợp, số liệu, giấy phép, cách chạy và test, kèm tài liệu riêng cho từng nghiệp vụ khi cần. Rủi ro và chỗ còn thiếu được báo trong chat, thành file khi bạn đồng ý | Mới nhận một dự án người khác đã làm, cần hiểu trước khi sửa gì | `docs/analysis/` | `/analyze` |
+| **project-analysis** | Đọc codebase có sẵn rồi **trả lời trong chat**: miền nghiệp vụ, kiến trúc, tech stack, dữ liệu, tích hợp, số liệu, giấy phép, cách chạy và test. Mọi nhận định đều có nhãn và dẫn chứng. Chỉ khi bạn yêu cầu nó mới ghi thành bộ tài liệu, số file tùy quy mô dự án, kèm tài liệu riêng cho từng nghiệp vụ | Mới nhận một dự án người khác đã làm, cần hiểu trước khi sửa gì | Câu trả lời trong chat; `docs/analysis/` khi bạn yêu cầu | `/analyze` |
 | **spec-driven-development** | Viết đặc tả trước khi viết code: mục tiêu, phạm vi, tiêu chí nghiệm thu | Bắt đầu project/feature mới mà chưa có spec. Hoặc yêu cầu còn mơ hồ | `SPEC.md` | `/spec` |
 | **constraint-driven-development** | Biến tiêu chuẩn chất lượng thành **hợp đồng viết ra giấy**, rồi canh diff xem agent có âm thầm hạ chuẩn không (thêm `@ts-ignore`, skip test, xoá assertion, sửa ngưỡng xuống) | Chưa có tiêu chuẩn nào được ghi lại. Hoặc agent cứ tắt check để cho test xanh | `CONSTRAINTS.md` | `/constraints` |
 
@@ -112,6 +113,7 @@ Cột "Chi tiết" dẫn tới bảng đầy đủ ở dưới: gọi khi nào, 
 | **code-review-and-quality** | Review theo nhiều trục: đúng đắn, dễ đọc, kiến trúc, bảo mật, hiệu năng | Trước khi merge bất cứ thứ gì. Review code của mình, của agent khác, hay của người khác. Dán diff vào cũng được | Phát hiện phân loại Critical / Required / Optional / Nit kèm `file:line` | `/review` |
 | **code-simplification** | Làm code gọn hơn mà **không đổi hành vi** | Code chạy đúng nhưng khó đọc, khó sửa, lồng quá sâu | Code đã gọn + test vẫn xanh | `/code-simplify` |
 | **security-and-hardening** | Bịt lỗ hổng: OWASP Top Ten, validate input, least privilege, rà soát dependency, GDPR/CCPA | Có xử lý input không tin cậy, auth, session, lưu dữ liệu, tích hợp bên thứ ba. Hoặc đang triage kết quả `npm audit` | Danh sách lỗ hổng + bản vá | — |
+| **risk-assessment** | Chấm điểm một rủi ro **đã** tìm thấy: verdict `Confirmed`/`Potential`/`Structural`, severity từ `Critical` tới `Informational`, bằng chứng phải là `file:line` mở ra xem được — và **không** đề xuất cách sửa | Thấy một chỗ đáng lo khi đọc code và cần biết nó thật sự nghiêm trọng tới đâu. Hoặc cần sàng một danh sách finding xem cái nào có thật | Danh sách finding đã chấm điểm, báo trong chat; thành file khi bạn yêu cầu | — |
 | **performance-optimization** | Tối ưu hiệu năng frontend, backend, query, database — **đo trước, tối ưu sau** | Có yêu cầu về hiệu năng, nghi ngờ bị chậm đi, Core Web Vitals kém, có N+1 query | `PERF.md` + bản tối ưu có số đo | — |
 
 > **Đừng đoán mà tối ưu.** `performance-optimization` yêu cầu có số đo trước. Không có baseline thì không biết mình có cải thiện gì hay không.
@@ -145,6 +147,7 @@ Cột "Chi tiết" dẫn tới bảng đầy đủ ở dưới: gọi khi nào, 
 Chưa biết mình muốn gì ─────────────→ interview-me
 Có ý tưởng, cần nhiều phương án ───→ idea-refine
 Nhận dự án người khác đã làm ──────→ project-analysis
+Thấy một chỗ đáng lo, cần chấm điểm → risk-assessment
 Bắt đầu feature mới ───────────────→ spec-driven-development
 Chưa có tiêu chuẩn chất lượng ─────→ constraint-driven-development
 Có spec, cần chia task ────────────→ planning-and-task-breakdown

@@ -9,7 +9,7 @@
   "plugins": [
     {
       "name": "agent-skills",
-      "version": "0.9.0",
+      "version": "0.9.1",
       "source": "./",
       "description": "Production-grade engineering skills covering every phase of software development: spec, plan, build, verify, review, and ship.",
       "homepage": "https://github.com/thanhnd2397/claude-agents-skill",

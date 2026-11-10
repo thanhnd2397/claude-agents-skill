@@ -4,7 +4,7 @@ Tài liệu này giải thích cách dùng bộ skill theo từng bước: giai 
 
 > Muốn xem một ví dụ cụ thể đi từ đầu đến cuối, kèm đúng những gì bạn gõ ở mỗi bước: [vi-du-su-dung.md](vi-du-su-dung.md).
 >
-> Muốn gọi skill trực tiếp thay vì qua command, kèm tác dụng của cả 26 skill: [danh-muc-skills.md](danh-muc-skills.md).
+> Muốn gọi skill trực tiếp thay vì qua command, kèm tác dụng của cả 27 skill: [danh-muc-skills.md](danh-muc-skills.md).
 >
 > Muốn biết nên dùng skill nào cho việc đang làm và khi nào **không** nên dùng: [cach-dung-hieu-qua.md](cach-dung-hieu-qua.md).
 
@@ -28,7 +28,7 @@ Sau khi cài, mở Claude Code trong **dự án bạn đang làm** (không phả
 | Thành phần | Là gì | Ai kích hoạt | Tốn token khi nào |
 |---|---|---|---|
 | **Command** (9 lệnh) | Điểm vào cho từng giai đoạn. Mỗi lệnh gọi một hoặc hai skill. | **Chỉ bạn.** Mọi lệnh đều có `disable-model-invocation: true`, nên Claude không tự gọi. | Khi bạn gõ lệnh |
-| **Skill** (25 skill) | Quy trình chi tiết, mỗi skill khoảng 200–400 dòng, tức khoảng 3–6k token. | Do command gọi, hoặc Claude tự gọi khi câu hỏi khớp với `description` của skill. | Lúc bình thường chỉ nạp phần `description` ngắn. Toàn bộ nội dung chỉ được nạp khi skill được gọi. |
+| **Skill** (26 skill) | Quy trình chi tiết, mỗi skill khoảng 200–400 dòng, tức khoảng 3–6k token. | Do command gọi, hoặc Claude tự gọi khi câu hỏi khớp với `description` của skill. | Lúc bình thường chỉ nạp phần `description` ngắn. Toàn bộ nội dung chỉ được nạp khi skill được gọi. |
 | **Agent** (4 persona) | Subagent chạy trong **context riêng**, chỉ trả báo cáo về phiên chính. | `/ship`, `/webperf`, hoặc khi bạn gọi đích danh. | Mỗi agent tốn một context riêng, nhưng giữ cho phiên chính gọn. |
 
 **Điểm hay bị hiểu nhầm:** `/review` và `/test` **không** dùng agent. Chúng chạy skill ngay trong phiên chính. Chỉ `/ship` và `/webperf` mới gọi agent.
@@ -113,9 +113,14 @@ duyệt     duyệt     mỗi task 1 commit     sửa lỗi    GO / NO-GO
 
 ## Phân tích một codebase mới
 
-Bắt đầu bằng `/analyze` (skill `project-analysis`). Nó đọc dự án, tự đánh giá
-quy mô, rồi viết bộ tài liệu trong `docs/analysis/` theo một trong hai dạng, vào
-từ `README.md`.
+Bắt đầu bằng `/analyze` (skill `project-analysis`). Nó đọc dự án rồi **trả lời
+ngay trong chat** — không sinh ra file nào. Hỏi một câu thì nhận một câu trả lời,
+có nhãn và dẫn chứng đầy đủ như trong tài liệu.
+
+**Muốn thành file thì phải nói rõ:** `/analyze --write`, "viết tài liệu phân
+tích", một đường dẫn output cụ thể, hoặc một bộ `docs/analysis/` đã có sẵn cần
+cập nhật. Lúc đó nó tự đánh giá quy mô rồi viết bộ tài liệu trong
+`docs/analysis/` theo một trong hai dạng, vào từ `README.md`.
 
 **Dự án nhỏ** — dưới 3 domain nghiệp vụ và dưới 10 module:
 
@@ -143,11 +148,12 @@ Dạng đã chọn được ghi vào header của `README.md` kèm số đếm �
 Lần chạy sau đọc lại dòng đó và giữ nguyên dạng, thay vì đánh giá lại rồi đổi
 tên toàn bộ file dưới chân bạn. Muốn đổi dạng thì agent phải hỏi trước.
 
-**Hai file không được tạo sẵn.** `risk-register.md` và `questions.md` không thuộc
-dạng nào. Rủi ro và chỗ còn `[Unknown]` luôn được báo trong tin nhắn cuối, kèm
-mức độ và dẫn chứng; agent chỉ tạo file khi bạn yêu cầu, hoặc khi nó đề nghị và
-bạn đồng ý. Không có file không có nghĩa là không được báo. Nếu bộ tài liệu
-đã có sẵn hai file đó từ trước thì chúng được giữ và cập nhật như mọi file khác.
+**Ngoài danh sách trên nó không ghi file nào khác.** Không có `risk-register.md`,
+không có `questions.md`. Chỗ còn `[Unknown]` nằm ngay trong tài liệu nói về chủ
+đề đó và được liệt kê lại trong tin nhắn cuối; chỗ nào đáng lo thì nó nêu một
+dòng kèm dẫn chứng, **không** tự chấm mức độ — muốn chấm thì gọi skill
+`risk-assessment`. Nếu bộ tài liệu đã có sẵn hai file đó từ một bản cũ, chúng
+được đọc và **giữ nguyên không đổi một byte**: không bị xoá, không bị ghi thêm.
 
 ```
 /analyze
@@ -180,7 +186,7 @@ trong file mới — mọi nhận định, dẫn chứng, câu trả lời `[Use
 Bốn điều đáng biết về bộ tài liệu này:
 
 - **Mỗi nhận định có nhãn và dẫn chứng.** `[Verified]` là đọc trực tiếp từ code kèm `file:dòng`, `[Inferred]` là suy luận kèm lý do, `[Unknown]` là code không trả lời được. Bạn biết chỗ nào tin được, chỗ nào chỉ là suy đoán.
-- **Chỗ nào không rõ thành `[Unknown]`, không thành phỏng đoán.** Nhãn `[Unknown]` nằm ngay trong tài liệu nói về chủ đề đó, nói rõ thiếu gì, và được liệt kê lại trong tin nhắn cuối. Bạn trả lời ngay trong chat, hoặc nhận lời khi agent đề nghị tạo `questions.md` để điền vào dòng `**Answer:**` dưới mỗi câu. Nhận định tương ứng thành `[User]` kèm ngày xác nhận. Agent không bao giờ tự điền câu trả lời, nên cái gì trong đó là của bạn.
+- **Chỗ nào không rõ thành `[Unknown]`, không thành phỏng đoán.** Nhãn `[Unknown]` nằm ngay trong tài liệu nói về chủ đề đó, nói rõ thiếu gì và cái gì sẽ giải quyết được, và được liệt kê lại trong tin nhắn cuối. Bạn trả lời ngay trong chat; nhận định tương ứng thành `[User]` kèm ngày xác nhận. Agent không bao giờ tự điền câu trả lời.
 - **Chỉ đọc, và không tự chạy lệnh.** Nó không `npm install`, không `npm test`, không kết nối database; các lệnh tìm thấy được ghi là "not run". Nó cũng chỉ ghi tên biến môi trường và secret, không ghi giá trị.
 - **Số liệu luôn kèm quy tắc đếm.** Mỗi con số trong `README.md` ghi rõ đếm gì và loại trừ gì, ví dụ "1 endpoint, là cặp method và path, không tính fallback 404". Một con số không có quy tắc đếm thì không ai kiểm lại được.
 
