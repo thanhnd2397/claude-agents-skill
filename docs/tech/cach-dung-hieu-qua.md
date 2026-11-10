@@ -4,7 +4,7 @@ Tài liệu này không liệt kê skill — [danh-muc-skills.md](danh-muc-skill
 
 ---
 
-## Nguyên tắc số một: đừng dùng cả 26 skill
+## Nguyên tắc số một: đừng dùng cả 27 skill
 
 Chọn 5–6 skill cho công việc hằng ngày, gọi thêm khi gặp đúng tình huống.
 
@@ -22,11 +22,13 @@ Ba tầng dưới đây giả định bạn đã hiểu codebase. Nếu vừa nh
 /analyze
 ```
 
-Nó đọc dự án và viết một bộ tài liệu trong `docs/analysis/`, vào từ `README.md`, với số file tùy quy mô: dự án nhỏ được `README.md` + `tech.md` + `system.md`; dự án lớn — từ 3 domain hoặc 10 module trở lên — được tách thêm `domain.md` và `architecture.md`. Giá trị thật không nằm ở việc có một bản tóm tắt — mà ở chỗ **mỗi nhận định đều có nhãn**: `[Verified]` kèm `file:dòng`, `[Inferred]` kèm lý do, `[Unknown]` nói rõ thiếu gì và cái gì sẽ chốt được nó. Agent không biết thì nó nói là không biết, thay vì nói chắc nịch một điều nó đoán — đó là cách đọc code của agent gây tốn kém nhất.
+Nó đọc dự án rồi **trả lời trong chat, không sinh file**. Giá trị thật không nằm ở việc có một bản tóm tắt — mà ở chỗ **mỗi nhận định đều có nhãn**: `[Verified]` kèm `file:dòng`, `[Inferred]` kèm lý do, `[Unknown]` nói rõ thiếu gì và cái gì sẽ chốt được nó. Agent không biết thì nó nói là không biết, thay vì nói chắc nịch một điều nó đoán — đó là cách đọc code của agent gây tốn kém nhất.
 
-Một lần cho cả dự án. Chỉ cần một phần thì truyền phạm vi: `/analyze src/payments`. Cần hiểu sâu đúng một nghiệp vụ thì truyền tên nó: `/analyze Issue refund`. Chạy xong, trả lời những chỗ còn `[Unknown]` ngay trong chat — hoặc nhận lời khi nó đề nghị tạo `questions.md` để bạn điền dần — rồi mới gọi `context-engineering` viết `CLAUDE.md`, lúc đó quy ước ghi vào đều có dẫn chứng.
+Muốn thành tài liệu thì nói rõ: `/analyze --write`, hoặc "viết tài liệu phân tích". Lúc đó nó ghi vào `docs/analysis/`, vào từ `README.md`, với số file tùy quy mô: dự án nhỏ được `README.md` + `tech.md` + `system.md`; dự án lớn — từ 3 domain hoặc 10 module trở lên — được tách thêm `domain.md` và `architecture.md`.
 
-Rủi ro mặc định **không** thành file. Những gì việc đọc phơi ra đều được báo trong tin nhắn cuối, kèm mức độ, verdict và dẫn chứng; cái nào `Critical` hay `High` thì thêm một dòng vào `README.md`. Muốn có `risk-register.md` riêng thì agent phải hỏi trước. Dù có file hay không, đây không phải bản audit: nó không đi tìm cho đủ và không đề xuất cách sửa. Muốn audit thật thì gọi `security-and-hardening` hoặc `/review`.
+Chỉ cần một phần thì truyền phạm vi: `/analyze src/payments`. Cần hiểu sâu đúng một nghiệp vụ thì truyền tên nó: `/analyze Issue refund`. Chạy xong, trả lời những chỗ còn `[Unknown]` ngay trong chat, rồi mới gọi `context-engineering` viết `CLAUDE.md` — lúc đó quy ước ghi vào đều có dẫn chứng.
+
+`/analyze` **không chấm điểm rủi ro**. Chỗ nào đáng lo mà việc đọc phơi ra thì nó nêu một dòng kèm dẫn chứng, không mức độ, không verdict, không đề xuất cách sửa. Muốn biết nghiêm trọng tới đâu thì gọi skill `risk-assessment`: nó chấm verdict (`Confirmed` chỉ khi đã trace được đường đi, còn lại là `Potential`) và severity, nhưng cũng không sửa. Muốn audit thật thì gọi `security-and-hardening` hoặc `/review`.
 
 ---
 
@@ -140,6 +142,6 @@ Dự án chưa biết thì `/analyze` một lần trước đã. Sau đó dùng 
 
 ## Đọc thêm
 
-- [danh-muc-skills.md](danh-muc-skills.md) — tác dụng chi tiết của cả 26 skill
+- [danh-muc-skills.md](danh-muc-skills.md) — tác dụng chi tiết của cả 27 skill
 - [huong-dan-su-dung.md](huong-dan-su-dung.md) — quy trình theo command, từng bước
 - [vi-du-su-dung.md](vi-du-su-dung.md) — ví dụ chạy thật từ đầu đến cuối

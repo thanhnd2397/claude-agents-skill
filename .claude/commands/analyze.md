@@ -1,5 +1,5 @@
 ---
-description: Analyze an existing project into a linked, evidence-backed doc set sized to the project — business domain, architecture, tech stack, data, integrations, licensing, counts, how to run it
+description: Analyze an existing project and answer in the conversation — business domain, architecture, tech stack, data, integrations, licensing, counts, how to run it. Writes a doc set only when asked.
 disable-model-invocation: true
 ---
 
@@ -9,35 +9,26 @@ Scope: $ARGUMENTS
 
 Resolve the scope as follows:
 
-- Empty: analyze the whole project.
-- A path: analyze only that path, and record the rest as not analyzed.
-- A topic: analyze only the code that serves it.
-- A feature or operation already named in the domain tree of an existing
-  analysis: write that feature's document under `docs/analysis/features/`
-  rather than re-analyzing the project.
+- Empty: the whole project.
+- A path: only that path. Record the rest as not analyzed.
+- A question or a topic: only the code that answers it.
+- A feature already named in the domain tree of an existing analysis: that
+  feature.
 
-Write the document set to `docs/analysis/`, entered at `docs/analysis/README.md`.
-Judge the project's size and use the shape the skill specifies for it:
+**Answer in the conversation. Write no file.** Scale the answer to what was
+asked, keep every claim labeled and cited, and report every `[Unknown]` gap.
 
-- **Large** — three or more business domains, or ten or more modules, or more
-  than one deployable: `README.md`, `tech.md`, `domain.md`, `architecture.md`.
-- **Small** — anything less: `README.md`, `tech.md`, `system.md`.
+Write to `docs/analysis/` only where the scope asks for files in so many
+words — `--write`, "write it up", "document this", a named output path, or an
+existing `docs/analysis/` set to update. Then use the shape the skill specifies
+for the project's size, write no file that shape does not name, and read but
+never modify any file an earlier run left behind.
 
-Record the shape and the counts behind it in the README header. On a rerun,
-read that line and keep the shape rather than deciding again.
+Read only, apart from a doc set that was asked for. Finish every phase before
+asking anything. Then report the summary, the counts, every gap, anything
+alarming the reading exposed as one plain cited line each — ungraded, naming
+`risk-assessment` as the way to grade it — and what was written, if anything.
 
-Write no file the shape does not name. In particular, do **not** create
-`risk-register.md` or `questions.md`: report every risk and every gap in your
-closing message instead, then offer those two files and wait for an answer
-before writing either. If one already exists, keep and update it.
-
-Read only, apart from `docs/analysis/`. If an analysis is already there — in
-any earlier layout — consolidate it in place and follow the skill's rerun
-protocol. Never start a second set, never delete an old file before confirming
-its content landed in the file that now owns it, and never overwrite a user's
-answers.
-
-Finish every phase before asking anything. Then report the summary, the shape
-and its counts, the headline counts, every risk with its verdict and citation,
-every open gap, and the files written — then ask about the two optional files
-and stop.
+Invoke `agent-skills:project-analysis` and nothing else. Do not load or run
+`risk-assessment`, `security-and-hardening` or any other skill from this
+command, however alarming what you found looks. Name the next step and stop.

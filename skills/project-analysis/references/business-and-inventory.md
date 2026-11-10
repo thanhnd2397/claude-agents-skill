@@ -78,7 +78,7 @@ For each feature in the domain tree, and in full in a feature document:
 - **Data.** Tables and entities read and written.
 - **Interfaces.** Endpoints, events, jobs, and screens involved.
 - **Dependencies.** Other features and external services it needs.
-- **Gaps.** `[Unknown]` claims with their question ids.
+- **Gaps.** `[Unknown]` claims, each saying what is missing and what would settle it.
 
 A feature document that is a paraphrase of the code in prose is not worth
 writing. The value is in the rules, the actors, and the gaps — the things a

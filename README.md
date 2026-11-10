@@ -67,7 +67,7 @@ Already installed? How you roll the pack out depends on your codebase. The **[Ad
 
 ## All 26 Skills
 
-The commands above are entry points. The pack includes 26 skills total — 25 lifecycle skills plus the `using-agent-skills` meta-skill. Each skill is a structured workflow with steps, verification gates, and anti-rationalization tables. You can also reference any skill directly.
+The commands above are entry points. The pack includes 27 skills total — 26 lifecycle skills plus the `using-agent-skills` meta-skill. Each skill is a structured workflow with steps, verification gates, and anti-rationalization tables. You can also reference any skill directly.
 
 ### Meta - Discover which skill applies
 
@@ -79,7 +79,7 @@ The commands above are entry points. The pack includes 26 skills total — 25 li
 
 | Skill | What It Does | Use When |
 | ------- | ------------- | ---------- |
-| [project-analysis](skills/project-analysis/SKILL.md) | Read an existing codebase into a linked evidence-backed doc set — domain, structure, stack, data, integrations, counts, licensing, risks, how to run it — with every claim labeled `[Verified]`/`[Inferred]`/`[Unknown]` and cited, and per-feature docs on request | You inherited or joined an already-developed project and need to understand it before changing anything |
+| [project-analysis](skills/project-analysis/SKILL.md) | Read an existing codebase and answer in the conversation — domain, structure, stack, data, integrations, counts, licensing, how to run it — with every claim labeled `[Verified]`/`[Inferred]`/`[Unknown]` and cited; writes a linked doc set, and per-feature docs, only when asked | You inherited or joined an already-developed project and need to understand it before changing anything |
 | [interview-me](skills/interview-me/SKILL.md) | One-question-at-a-time interview that extracts what the user actually wants instead of what they think they should want, until ~95% confidence | The ask is underspecified, or the user invokes "interview me" / "grill me" |
 | [idea-refine](skills/idea-refine/SKILL.md) | Structured divergent/convergent thinking to turn vague ideas into concrete proposals | You have a rough concept that needs exploration |
 | [spec-driven-development](skills/spec-driven-development/SKILL.md) | Write a PRD covering objectives, commands, structure, code style, testing, and boundaries before any code | Starting a new project, feature, or significant change |
@@ -117,6 +117,7 @@ The commands above are entry points. The pack includes 26 skills total — 25 li
 | [code-review-and-quality](skills/code-review-and-quality/SKILL.md) | Five-axis review, change sizing (~100 lines), severity labels (Nit/Optional/FYI), review speed norms, splitting strategies | Before merging any change |
 | [code-simplification](skills/code-simplification/SKILL.md) | Chesterton's Fence, Rule of 500, reduce complexity while preserving exact behavior | Code works but is harder to read or maintain than it should be |
 | [security-and-hardening](skills/security-and-hardening/SKILL.md) | OWASP Top 10 prevention, auth patterns, secrets management, dependency auditing, three-tier boundary system | Handling user input, auth, data storage, or external integrations |
+| [risk-assessment](skills/risk-assessment/SKILL.md) | Grades a danger you already found — `Confirmed`/`Potential`/`Structural` verdicts, a severity rubric, an evidence bar of `file:line` you can open — and hands it off without proposing a fix | Something alarming turned up, or a list of findings needs triaging into what is real |
 | [performance-optimization](skills/performance-optimization/SKILL.md) | Measure-first approach - Core Web Vitals targets, profiling workflows, bundle analysis, anti-pattern detection | Performance requirements exist or you suspect regressions |
 
 ### Ship - Deploy with confidence
@@ -198,7 +199,7 @@ Every skill follows a consistent anatomy:
 
 | Layer | Repository paths | Purpose |
 | --- | --- | --- |
-| Workflow core | `skills/` (26 skills) | `SKILL.md` workflows |
+| Workflow core | `skills/` (27 skills) | `SKILL.md` workflows |
 | Review material | `agents/` (4 personas), `references/` (7 checklists) | Specialist reviewers and pack-level checklists |
 | Claude Code plugin | `.claude/commands/` (10 commands), `.claude-plugin/`, `hooks/` | Slash commands, plugin and marketplace manifests, hooks |
 | Contributor tooling | `scripts/`, `evals/` (26 case files), `.github/workflows/` | Validation, routing evals, and CI |
