@@ -100,14 +100,12 @@ consolidated into the current shape on the next run.
 | `business-domain.md` | `domain.md` | `system.md` |
 | `structure.md` | `architecture.md` | `system.md` |
 | `data-and-integrations.md` | `architecture.md` | `system.md` |
-| `risk-register.md` | left exactly as it is | left exactly as it is |
-| `questions.md` | left exactly as it is | left exactly as it is |
 | `features/**` | unchanged | unchanged |
+| Any other file | left exactly as it is | left exactly as it is |
 
-This skill no longer writes those two files. One that exists is read, left
-byte-for-byte as it is, and never deleted, emptied, extended or regenerated —
-including through a shape change. Not writing a file is not permission to
-destroy somebody's.
+A file not in that mapping is read, left byte-for-byte as it is, and never
+deleted, emptied, extended or regenerated — including through a shape change.
+Not writing a file is not permission to destroy somebody's.
 
 A single-file report keeps its questions and its findings in sections rather
 than files. Those sections are carried over as claims in the document that now
@@ -117,12 +115,12 @@ owns the subject, not dropped:
 |---|---|
 | An answered question, or any `[User]` assertion | A `[User]` claim, with the answer and its date preserved |
 | An open question, or any numbered `Q<n>` entry | An `[Unknown]` claim where its subject is covered, keeping the question's wording and saying what would settle it |
-| `Serious issues noticed`, or any `R<n>` entry | Its factual part as a labeled, cited claim where its subject is covered, plus one plain line in the handoff pointing at `risk-assessment` |
+| `Serious issues noticed`, or any `R<n>` entry | Its factual part as a labeled, cited claim where its subject is covered, plus one plain ungraded line in the handoff |
 
 Carrying this content forward is preservation, not a new finding: the wording,
 the dates and the answers are kept as they are. What does not carry over is a
-severity or a verdict an earlier run assigned — restate the fact and let
-`risk-assessment` grade it. No new file appears for any of it.
+severity or a verdict an earlier run assigned — restate the fact and leave it
+ungraded. No new file appears for any of it.
 
 Consolidating is the only time this skill deletes a file, and the order is
 fixed:
@@ -134,9 +132,9 @@ fixed:
 4. List in the handoff what was removed and where its content went.
 
 A deletion before step 2 is how an analysis loses a `[User]` answer that no
-amount of re-reading the code can recover. `risk-register.md` and
-`questions.md` are never deleted here either: they are kept as they are, even
-though neither is written any more.
+amount of re-reading the code can recover. A file outside the mapping above is
+never deleted here either: it is kept exactly as it is, even though this skill
+does not write it.
 
 ## Index File
 
@@ -151,9 +149,8 @@ of the project without opening anything else. It carries, in order:
 4. **Document map.** A link to every file written, with one line each.
 
 There is no issues section. Anything alarming the reading exposed goes in the
-handoff message as one plain cited line, ungraded, with `risk-assessment`
-offered to grade it — an index that assigns severities is doing that skill's
-job badly.
+handoff message as one plain cited line, ungraded — an index that assigns
+severities is grading, which this skill does not do.
 
 Record the commit as the short hash and whether the tree was clean. An analysis
 of a dirty tree is an analysis of something nobody else can check out, and the
@@ -207,15 +204,16 @@ documents that were asked for. In particular:
 
 - **No issues or register file.** Anything alarming the reading exposed is
   named in the handoff, in one plain cited line, with no severity and no
-  verdict. `risk-assessment` grades it if the user wants that.
-- **No questions file.** A gap is an `[Unknown]` claim in the document that
-  owns its subject, saying what is missing and what would settle it, and it is
-  repeated in the handoff. The user answers in conversation.
+  verdict.
+- **No questions file, and no question ids.** A gap is an `[Unknown]` claim in
+  the document that owns its subject, saying what is missing and what would
+  settle it, and it is repeated in the handoff. The user answers in
+  conversation.
 
-Where either file already exists from an earlier version of this skill, it is
-read and left exactly as it is. Reading it is useful — it holds `[User]`
-answers and question wording worth preserving as claims — but it is never
-written to, emptied, regenerated or deleted.
+Where a file like that already exists — from an earlier version of this skill
+or from a human — it is read and left exactly as it is. Reading it is useful:
+it holds `[User]` answers and question wording worth preserving as claims. It
+is never written to, emptied, regenerated or deleted.
 
 What never depends on any of this: every gap reaches the user, and nothing is
 withheld because there is no file to put it in. A finding withheld for want of

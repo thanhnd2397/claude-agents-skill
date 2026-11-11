@@ -148,11 +148,11 @@ Dạng đã chọn được ghi vào header của `README.md` kèm số đếm �
 Lần chạy sau đọc lại dòng đó và giữ nguyên dạng, thay vì đánh giá lại rồi đổi
 tên toàn bộ file dưới chân bạn. Muốn đổi dạng thì agent phải hỏi trước.
 
-**Ngoài danh sách trên nó không ghi file nào khác.** Không có `risk-register.md`,
-không có `questions.md`. Chỗ còn `[Unknown]` nằm ngay trong tài liệu nói về chủ
+**Ngoài danh sách trên nó không ghi file nào khác.** Không có file rủi ro,
+không có file câu hỏi. Chỗ còn `[Unknown]` nằm ngay trong tài liệu nói về chủ
 đề đó và được liệt kê lại trong tin nhắn cuối; chỗ nào đáng lo thì nó nêu một
-dòng kèm dẫn chứng, **không** tự chấm mức độ — muốn chấm thì gọi skill
-`risk-assessment`. Nếu bộ tài liệu đã có sẵn hai file đó từ một bản cũ, chúng
+dòng kèm dẫn chứng, **không** tự chấm mức độ, không verdict, không đề xuất cách
+sửa. File nào đã có sẵn dưới `docs/analysis/` mà không thuộc dạng đã chọn thì
 được đọc và **giữ nguyên không đổi một byte**: không bị xoá, không bị ghi thêm.
 
 ```
