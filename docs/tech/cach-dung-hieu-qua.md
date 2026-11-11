@@ -28,7 +28,7 @@ Muốn thành tài liệu thì nói rõ: `/analyze --write`, hoặc "viết tài
 
 Chỉ cần một phần thì truyền phạm vi: `/analyze src/payments`. Cần hiểu sâu đúng một nghiệp vụ thì truyền tên nó: `/analyze Issue refund`. Chạy xong, trả lời những chỗ còn `[Unknown]` ngay trong chat, rồi mới gọi `context-engineering` viết `CLAUDE.md` — lúc đó quy ước ghi vào đều có dẫn chứng.
 
-`/analyze` **không chấm điểm rủi ro**. Chỗ nào đáng lo mà việc đọc phơi ra thì nó nêu một dòng kèm dẫn chứng, không mức độ, không verdict, không đề xuất cách sửa. Muốn biết nghiêm trọng tới đâu thì gọi skill `risk-assessment`: nó chấm verdict (`Confirmed` chỉ khi đã trace được đường đi, còn lại là `Potential`) và severity, nhưng cũng không sửa. Muốn audit thật thì gọi `security-and-hardening` hoặc `/review`.
+`/analyze` **không chấm điểm rủi ro**, và không tự gọi skill nào khác. Chỗ nào đáng lo mà việc đọc phơi ra thì nó nêu một dòng kèm dẫn chứng, không mức độ, không verdict, không đề xuất cách sửa — rồi dừng. Muốn biết nghiêm trọng tới đâu thì **bạn** gọi skill `risk-assessment` ở lượt sau: nó chấm verdict (`Confirmed` chỉ khi đã trace được đường đi, còn lại là `Potential`) và severity, nhưng cũng không sửa. Muốn audit thật thì gọi `security-and-hardening` hoặc `/review`.
 
 ---
 

@@ -26,9 +26,9 @@ never modify any file an earlier run left behind.
 
 Read only, apart from a doc set that was asked for. Finish every phase before
 asking anything. Then report the summary, the counts, every gap, anything
-alarming the reading exposed as one plain cited line each — ungraded, naming
-`risk-assessment` as the way to grade it — and what was written, if anything.
+alarming the reading exposed as one plain cited line each — ungraded, with no
+verdict and no proposed fix — and what was written, if anything.
 
-Invoke `agent-skills:project-analysis` and nothing else. Do not load or run
-`risk-assessment`, `security-and-hardening` or any other skill from this
-command, however alarming what you found looks. Name the next step and stop.
+Invoke `agent-skills:project-analysis` and nothing else. Do not load or run any
+other skill from this command, however alarming what you found looks. Name what
+you saw and stop.
